@@ -1,6 +1,31 @@
 import random
 import string
-from faker import Faker
+
+def death_text(n:int, a:int)->str:
+    """
+    Absolute RANDOM text with n words.
+    """
+    if a<20:
+        multiplier = random.randint(1, 5)
+    elif 20<=a<50:
+        multiplier = random.randint(5, 10)
+    elif 50<=a<100:
+        multiplier = random.randint(10, 15)
+    elif 100<=a<500:
+        multiplier = random.randint(15, 30)
+    elif 500<=a<1000:
+        multiplier = random.randint(30, 100)
+    else:
+        multiplier = random.randint(100, 1000)
+    words=[]
+    chars=string.ascii_letters+string.digits+string.punctuation
+    multiplier = random.randint(1, 15)
+    for i in range(multiplier*n):
+        word = ''.join(random.choice(chars) for _ in range(random.randint(1, 10)))
+        words.append(word)
+    text = " ".join(words)
+    return text
+        
 
 def text_gen(n:int, alphanumeric:int)->str:
     """
@@ -10,18 +35,21 @@ def text_gen(n:int, alphanumeric:int)->str:
     2) Word limit : -n <number of words>
     3) It has non alphabets like numbers, special characters, etc. : -a <difficulty level>
     """
+    with(open('wordlist.txt', 'r')) as f:
+        dictionary = f.readlines()
+    # import random n words from the dictionary
+    words = random.sample(dictionary, n) # type is list
+    words = [word.replace('\n', '') for word in words]
+
     if alphanumeric < 0:
         alphanumeric = 0
     elif alphanumeric > 10:
-        alphanumeric = 10
+        return death_text(n,alphanumeric)
     else:
         alphanumeric = int(alphanumeric) 
-    fake = Faker()
-    words = fake.words(n)
 
     if alphanumeric==0:
-            fake = Faker()
-            text = " ".join(fake.words(n))
+            text = " ".join(words)
             return text
     else:
         special = string.punctuation + string.digits + string.ascii_letters
@@ -66,3 +94,6 @@ def text_gen(n:int, alphanumeric:int)->str:
                 
         text = " ".join(words)
         return text
+
+if __name__ == '__main__':
+    print(text_gen(60, 0))
