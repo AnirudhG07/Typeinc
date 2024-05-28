@@ -1,13 +1,13 @@
 import curses
 
-def calculate_wpm_and_accuracy(total_words: int, total_chars:int,  total_time: float, errors: int) -> tuple:
+def calculate_wpm_and_accuracy(correct_words: int, total_chars:int,  total_time: float, errors: int) -> tuple:
     if total_time == 0 or total_chars == 0:
         return 0, 0
-    wpm = total_words / (total_time / 60)
+    wpm = correct_words / (total_time / 60)
     accuracy = round(((total_chars - errors) / total_chars) * 100,2)
     return int(wpm), accuracy
 
-def result(stdscr, total_words:int, total_chars, total_time:float, errors:int)->list:
+def result(stdscr, total_words:int, correct_words:int, total_chars, total_time:float, errors:int)->list:
     curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(4, curses.COLOR_CYAN, curses.COLOR_BLACK)
     curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -20,7 +20,7 @@ def result(stdscr, total_words:int, total_chars, total_time:float, errors:int)->
     - WPM
     - Accuracy
     """
-    wpm, accuracy = calculate_wpm_and_accuracy(total_words, total_chars, total_time, errors)
+    wpm, accuracy = calculate_wpm_and_accuracy(correct_words, total_chars, total_time, errors)
     stdscr.clear()
     stdscr.refresh()
     # Make a box in the centre of screen and print the content in it
@@ -39,7 +39,8 @@ def result(stdscr, total_words:int, total_chars, total_time:float, errors:int)->
     win.addstr(1, 15, 'Typing Test Results', curses.color_pair(4))
     win.addstr(2, 1, f'                            ')
     win.addstr(3, 1, f'Total Words typed: {total_words}')
-    win.addstr(4, 1, f'Time taken: {total_time} seconds')
+    win.addstr(4, 1, f'Correct words: {correct_words}')
+    win.addstr(5, 1, f'Time taken: {total_time} seconds')
     win.addstr(6, 1, f'You made {errors} errors out of {total_chars} characters typed')
     win.addstr(7, 1, f'Typing speed: {wpm} WPM')
     win.addstr(8, 1, f'Accuracy: {accuracy}%')

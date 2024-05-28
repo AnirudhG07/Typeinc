@@ -47,6 +47,9 @@ def main(stdscr, numwords, alphanumeric):
     i = 0
     j = 0
     start_time = time.time()
+    correct_words = 0
+    word_start = 0
+
     while i < len(lines):
         line = lines[i]
         while j < len(line):
@@ -67,6 +70,13 @@ def main(stdscr, numwords, alphanumeric):
                     errors_pos.add(10*i+j)
                 j += 1
 
+            # Check if the user finished typing a word
+            if char == ' ' or j == len(line):
+                word_end = 10*i+j
+                if not any(pos in range(word_start, word_end) for pos in errors_pos):
+                    correct_words += 1
+                word_start = word_end
+
             stdscr.refresh()
 
         i += 1
@@ -74,7 +84,7 @@ def main(stdscr, numwords, alphanumeric):
     end_time = time.time()
 
     # Show the results
-    retry_flag=result(stdscr, total_words, total_chars, int(end_time-start_time), len(errors_pos))
+    retry_flag=result(stdscr, correct_words, total_chars, int(end_time-start_time), len(errors_pos))
     if retry_flag== True:
         curses.endwin()
         numwords=int(input("Enter the number of words you want to type: "))
