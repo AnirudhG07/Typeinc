@@ -94,6 +94,3 @@ def text_gen(n:int, alphanumeric:int)->str:
                 
         text = " ".join(words)
         return text
-
-if __name__ == '__main__':
-    print(text_gen(60, 0))

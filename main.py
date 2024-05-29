@@ -1,16 +1,12 @@
 import curses
 import random
 import argparse
-import time
+import time, subprocess
 
 from text_gen import text_gen
 from result import result
-
-def ui():
-    """
-    Max a good box within where the user will type
-    """
-    pass
+from keyboard import *
+from ui import setup_window
 
 
 def main(stdscr, numwords, alphanumeric):
@@ -20,68 +16,117 @@ def main(stdscr, numwords, alphanumeric):
     2) makes the UI and starts whenever the user starts typing
     3) Shows the results
     4) Ask the user if they want to continue
-
     """
-    test_text = text_gen(numwords,alphanumeric)
-    # Clear screen
-    stdscr.clear()
 
     # Initialize color pairs
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
 
+    test_text = text_gen(numwords,alphanumeric)
     words = test_text.split()
 
-    errors_pos = set()
-    total_chars = sum(len(word) for word in words)
-    total_words = len(words)
+    # Clear screen
+    stdscr.clear()
 
-    # Arrange words into lines of maximum 7 words each
-    lines = [' '.join(words[i:i+7]) + ' ' for i in range(0, len(words), 7)]
-    for i, line in enumerate(lines):
-        stdscr.addstr(i, 0, line, curses.color_pair(0))
+    keyboard_coordinates, getch_to_keyboard, characters = keyboard(stdscr)
 
-    stdscr.refresh()
-    stdscr.move(0, 0)
-
-    i = 0
-    j = 0
-    start_time = time.time()
+    # Initialize variables
     correct_words = 0
-    word_start = 0
+    total_chars = len(test_text)
+    errors_pos = set()
+    start_time = time.time()
 
-    while i < len(lines):
-        line = lines[i]
-        while j < len(line):
-            char = line[j]
-            user_input = stdscr.getkey()
-            if user_input == '\x7f':  # Backspace key
-                if j > 0:
-                    j -= 1
-                elif i > 0:
-                    i -= 1
-                    j = len(lines[i]) - 1
-                stdscr.move(i, j)  # Move the cursor back
-            else:
-                if user_input == char:
-                    stdscr.addstr(i, j, char, curses.color_pair(1))
-                else:
-                    stdscr.addstr(i, j, char, curses.color_pair(2)) # Red color for wrong characters
-                    errors_pos.add(10*i+j)
-                j += 1
+    # Get the size of the terminal
+    height, width = stdscr.getmaxyx()
+    win, box_width, box_height = setup_window(stdscr)
+    # Refresh the screen to show the box
+    stdscr.refresh()
+    win.refresh()
 
-            # Check if the user finished typing a word
-            if char == ' ' or j == len(line):
-                word_end = 10*i+j
-                if not any(pos in range(word_start, word_end) for pos in errors_pos):
-                    correct_words += 1
-                word_start = word_end
+    # Initialize cursor position
+    cursor_y, cursor_x = 1, 2
+    win.move(cursor_y, cursor_x)
 
-            stdscr.refresh()
+    # Print the initial prompt
+    win.addstr(cursor_y, cursor_x, "$ ")
+    cursor_x += 2
 
-        i += 1
-        j = 0
-    end_time = time.time()
+    input_str = ""
+    while True:
+        # Get user input
+        c = win.getch()
+
+        if c == ord('\n'):  # If the user hits enter
+            # Execute the command
+            try:
+                output = subprocess.check_output(input_str, shell=True)
+            except subprocess.CalledProcessError as e:
+                output = e.output
+
+            # Print the output
+            for line in output.decode().split('\n'):
+                win.addstr(cursor_y, cursor_x, "\n"+line)
+                cursor_y += 1
+                if cursor_y >= box_height:  # If we've reached the bottom of the box, scroll up
+                    win.scroll(1)
+                    cursor_y -= 1
+
+            # Reset cursor position to the beginning of the box
+            cursor_x = 2
+            cursor_y += 1
+            if cursor_y >= box_height:  # If we've reached the bottom of the box, scroll up
+                win.scroll(1)
+                cursor_y -= 1
+
+            # Print the prompt
+            win.addstr(cursor_y, cursor_x, "zsh $ ")
+            cursor_x += 2
+
+            # Clear the input string
+            input_str = ""
+        elif c == ord('\b'):  # If the user hits backspace
+            if cursor_x > 2:  # If we're not at the start of the line
+                cursor_x -= 1
+                win.delch(cursor_y, cursor_x)
+                input_str = input_str[:-1]
+        elif 0 <= c < 0x110000:
+            # Add the character to the input string
+            input_str += chr(c)
+            win.addch(cursor_y, cursor_x, c)
+            cursor_x += 1
+            if cursor_x >= box_width:  # If we've reached the end of the line, wrap to the next line
+                cursor_x = 2
+                cursor_y += 1
+                if cursor_y >= box_height:  # If we've reached the bottom of the box, scroll up
+                    win.scroll(1)
+                    cursor_y -= 1
+
+        # Refresh the window to show the output
+        win.refresh()
+                    
+        ########## KEYBOARD ANIMATION ##########
+
+        # If a key was pressed
+        if c != -1:
+            # Convert the key to a character
+            key = getch_to_keyboard.get(c)
+            # If the key is in the keyboard layout
+            if key in keyboard_coordinates:
+                    # Get the coordinates of the key
+                y, x = keyboard_coordinates[key]
+                    # Erase the key at its current position
+                stdscr.addstr(y, x, ' ' * len(characters[key]))
+                # Print the key one line below
+                stdscr.addstr(y + 1, x, characters[key])
+                    # Clear the screen and refresh
+                stdscr.refresh()
+                time.sleep(0.02)
+                # Erase the key at the new position
+                stdscr.addstr(y + 1, x, ' ' * len(characters[key]))
+                # Print the key at its original position
+                stdscr.addstr(y, x, characters[key])
+                # Clear the screen and refresh
+                stdscr.refresh()
 
     # Show the results
     retry_flag=result(stdscr, correct_words, total_chars, int(end_time-start_time), len(errors_pos))
@@ -92,6 +137,7 @@ def main(stdscr, numwords, alphanumeric):
         curses.wrapper(main, numwords, alphanumeric)
     else:
         exit(0)
+
 
 if __name__ == '__main__':
     numwords=int(input("Enter the number of words you want to type: "))
