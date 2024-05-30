@@ -57,6 +57,8 @@ def input_box(stdscr):
         if len(part) < 36:
             break
     num_words = int(num_words)
+    if num_words>=7500:
+        num_words = 7500
 
     if num_words<=0:
         curses.endwin()

@@ -31,9 +31,8 @@ def text_gen(n:int, alphanumeric:int)->str:
     """
     Generate random text with n words.
     Depending on the arguments given, the text can be based on -
-    1) Time limit : -t <time>
-    2) Word limit : -n <number of words>
-    3) It has non alphabets like numbers, special characters, etc. : -a <difficulty level>
+    1) Word limit : -n <number of words>
+    2) It has non alphabets like numbers, special characters, etc. : -a <difficulty level>
     """
     with(open('wordlist.txt', 'r')) as f:
         dictionary = f.readlines()

@@ -114,7 +114,8 @@ def keyboard(keys):
     ord('c'): "C", ord('C'): "C", ord('v'): "V", ord('V'): "V", ord('b'): "B", ord('B'): "B",
     ord('n'): "N", ord('N'): "N", ord('m'): "M", ord('M'): "M", ord(','): ", <", ord('<'): ", <",
     ord('.'): ". >", ord('>'): ". >", ord('/'): "/ ?", ord('?'): "/ ?", ord(' '): "  SPC BAR  ",
-    127: "BACKSPACE" ,ord('ă'): 'UP', ord('Ă'): 'DOWN', ord('Ą'): 'LEFT',ord('ą'): 'RIGHT'
+    127: "BACKSPACE", 10: "ENTER", 9: "TAB", 27: "ESC",
+    ord('ă'): 'UP', ord('Ă'): 'DOWN', ord('Ą'): 'LEFT',ord('ą'): 'RIGHT'
 }
     return keyboard_coordinates, getch_to_keyboard, characters
 
