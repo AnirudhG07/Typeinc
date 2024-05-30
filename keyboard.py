@@ -68,8 +68,6 @@ def keyboard(keys):
             "BACKSPACE": " / BACKSPACE \\ "
         }
     
-    curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_BLACK)  # Define a color pair
-    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)  # Define a color pair
     # Initialize the curses window
     keys = curses.initscr()
 
@@ -87,12 +85,11 @@ def keyboard(keys):
 
     for i, row in enumerate(keyboard_layout):
         y_kb = i * 2 + 35# Multiply by 2 to add a line of spacing between each row
-        x_kb = 15
+        x_kb = 25
         for key in row:
             keyboard_coordinates[key] = (y_kb, x_kb)
             x_kb += len(key) + 5  # Add 1 for the space between keys
             
-
     # Iterate over the dictionary and print each key's character at its corresponding coordinates
     for key, (y_kb, x_kb) in keyboard_coordinates.items():
         if key in characters:
@@ -121,26 +118,3 @@ def keyboard(keys):
 }
     return keyboard_coordinates, getch_to_keyboard, characters
 
-def animate_keyboard(user_input, getch_to_keyboard, keyboard_coordinates, characters, stdscr):
-    keyboard_coordinates, getch_to_keyboard, characters = keyboard(stdscr)
-    # If a key was pressed
-    if user_input != -1:
-        # Convert the key to a character
-        key = getch_to_keyboard.get(user_input)
-        # If the key is in the keyboard layout
-        if key in keyboard_coordinates:
-            # Get the coordinates of the key
-            y, x = keyboard_coordinates[key]
-            # Erase the key at its current position
-            stdscr.addstr(y, x, ' ' * len(characters[key]))
-            # Print the key one line below
-            stdscr.addstr(y + 1, x, characters[key])
-            # Clear the screen and refresh
-            stdscr.refresh()
-            time.sleep(0.02)
-            # Erase the key at the new position
-            stdscr.addstr(y + 1, x, ' ' * len(characters[key]))
-            # Print the key at its original position
-            stdscr.addstr(y, x, characters[key])
-            # Clear the screen and refresh
-            stdscr.refresh()

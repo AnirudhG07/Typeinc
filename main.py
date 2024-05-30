@@ -23,88 +23,95 @@ def main(stdscr, numwords, alphanumeric):
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
 
     test_text = text_gen(numwords,alphanumeric)
-    words = test_text.split()
+    words = test_text.split(" ")
 
     # Clear screen
     stdscr.clear()
 
-    keyboard_coordinates, getch_to_keyboard, characters = keyboard(stdscr)
-
-    # Initialize variables
-    correct_words = 0
-    total_chars = len(test_text)
-    errors_pos = set()
-    start_time = time.time()
 
     # Get the size of the terminal
-    height, width = stdscr.getmaxyx()
     win, box_width, box_height = setup_window(stdscr)
-    # Refresh the screen to show the box
+
+    keyboard_coordinates, getch_to_keyboard, characters = keyboard(stdscr)
+
     stdscr.refresh()
     win.refresh()
 
-    # Initialize cursor position
-    cursor_y, cursor_x = 1, 2
+    # Initialize variables
+    correct_words = 0
+    total_words = len(words)
+    total_chars = len(test_text) # including spaces
+    errors_pos = set()
+    start_time = time.time()
+
+    i = 0  # The current index in the words list
+    j = 0  # The current index in the current word
+    cursor_y, cursor_x = 1, 1
+    
+    # Pre-print the text in the box
+    for word in words:
+        for char in word:
+            if cursor_x >= box_width - 3:  # If we've reached the end of the line, move to the next line
+                cursor_x = 1
+                cursor_y += 1
+            win.addch(cursor_y, cursor_x+1, char, curses.color_pair(3))  # Print the character in white
+            cursor_x += 1
+        cursor_x += 1  # Add a space after each word
+    cursor_x, cursor_y = 2, 1
+    # Reset the cursor position
     win.move(cursor_y, cursor_x)
 
-    # Print the initial prompt
-    win.addstr(cursor_y, cursor_x, "$ ")
-    cursor_x += 2
+    correct_words = 0
+    total_chars = len(words)
+    errors_pos = set()
+    start_time = time.time()
+    word_start = 0
 
-    input_str = ""
-    while True:
-        # Get user input
+    while i <= len(test_text): 
         c = win.getch()
+        # Check if the user is at the end of the box width
+        if cursor_x >= box_width-2:
+            cursor_x = 2  # Reset cursor_x
+            cursor_y += 1  # Move to the next line
 
-        if c == ord('\n'):  # If the user hits enter
-            # Execute the command
-            try:
-                output = subprocess.check_output(input_str, shell=True)
-            except subprocess.CalledProcessError as e:
-                output = e.output
-
-            # Print the output
-            for line in output.decode().split('\n'):
-                win.addstr(cursor_y, cursor_x, "\n"+line)
-                cursor_y += 1
-                if cursor_y >= box_height:  # If we've reached the bottom of the box, scroll up
-                    win.scroll(1)
-                    cursor_y -= 1
-
-            # Reset cursor position to the beginning of the box
-            cursor_x = 2
-            cursor_y += 1
-            if cursor_y >= box_height:  # If we've reached the bottom of the box, scroll up
-                win.scroll(1)
-                cursor_y -= 1
-
-            # Print the prompt
-            win.addstr(cursor_y, cursor_x, "zsh $ ")
-            cursor_x += 2
-
-            # Clear the input string
-            input_str = ""
-        elif c == ord('\b'):  # If the user hits backspace
-            if cursor_x > 2:  # If we're not at the start of the line
-                cursor_x -= 1
-                win.delch(cursor_y, cursor_x)
-                input_str = input_str[:-1]
-        elif 0 <= c < 0x110000:
-            # Add the character to the input string
-            input_str += chr(c)
-            win.addch(cursor_y, cursor_x, c)
+        if c == ord(test_text[i]) and c != ord(' '):
+            win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(1)) # Color the character green
             cursor_x += 1
-            if cursor_x >= box_width:  # If we've reached the end of the line, wrap to the next line
-                cursor_x = 2
-                cursor_y += 1
-                if cursor_y >= box_height:  # If we've reached the bottom of the box, scroll up
-                    win.scroll(1)
-                    cursor_y -= 1
+            i += 1
+        
+        elif c == ord(' '):
+            if c == ord(test_text[i]):
+                win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(1)) 
+                cursor_x += 1
+                i += 1
+            else:
+                win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(2))
+                cursor_x += 1
+                i += 1
+                errors_pos.add(i)
+        elif c == 127:  # Backspace key
+            cursor_x -= 1
+            i -= 1
+            win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(3))  # Replace the character with a space
+            win.move(cursor_y, cursor_x)  # Move the cursor back
 
-        # Refresh the window to show the output
+        elif c == 13: # ENTER KEY for Submitting
+            break
+        else:
+            if test_text[i] == ' ':
+                win.addch(cursor_y, cursor_x, '_', curses.color_pair(2))
+                cursor_x += 1
+                i += 1
+            else:
+                win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(2)) # Color the character red
+                errors_pos.add(i)
+                cursor_x += 1
+                i += 1
+   
+            # Refresh the window to show the output
         win.refresh()
-                    
-        ########## KEYBOARD ANIMATION ##########
+                        
+            ########## KEYBOARD ANIMATION ##########
 
         # If a key was pressed
         if c != -1:
@@ -112,13 +119,13 @@ def main(stdscr, numwords, alphanumeric):
             key = getch_to_keyboard.get(c)
             # If the key is in the keyboard layout
             if key in keyboard_coordinates:
-                    # Get the coordinates of the key
+                # Get the coordinates of the key
                 y, x = keyboard_coordinates[key]
-                    # Erase the key at its current position
+                # Erase the key at its current position
                 stdscr.addstr(y, x, ' ' * len(characters[key]))
                 # Print the key one line below
                 stdscr.addstr(y + 1, x, characters[key])
-                    # Clear the screen and refresh
+                # Clear the screen and refresh
                 stdscr.refresh()
                 time.sleep(0.02)
                 # Erase the key at the new position
@@ -127,9 +134,12 @@ def main(stdscr, numwords, alphanumeric):
                 stdscr.addstr(y, x, characters[key])
                 # Clear the screen and refresh
                 stdscr.refresh()
+        
+        win.move(cursor_y, cursor_x)
 
+    end_time = time.time()
     # Show the results
-    retry_flag=result(stdscr, correct_words, total_chars, int(end_time-start_time), len(errors_pos))
+    retry_flag=result(stdscr, total_words, correct_words, total_chars, int(end_time-start_time), len(errors_pos))
     if retry_flag== True:
         curses.endwin()
         numwords=int(input("Enter the number of words you want to type: "))
@@ -140,6 +150,6 @@ def main(stdscr, numwords, alphanumeric):
 
 
 if __name__ == '__main__':
-    numwords=int(input("Enter the number of words you want to type: "))
-    alphanumeric=int(input("Do you want to add special characters? "))
-    curses.wrapper(main, numwords, alphanumeric)
+    #numwords=int(input("Enter the number of words you want to type: "))
+    #alphanumeric=int(input("Do you want to add special characters? "))
+    curses.wrapper(main, numwords=100, alphanumeric=0)
