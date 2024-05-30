@@ -83,8 +83,8 @@ def main(stdscr):
                 i += 1
                 errors_pos.add(i)
         elif c == 127:  # Backspace key
-            if i - 1 in errors_pos:
-                errors_pos.remove(i - 1)
+            #if i - 1 in errors_pos:       | ## if you want backspace to remove the error
+            #    errors_pos.remove(i - 1)  |
             if cursor_x == 2:
                 if cursor_y > 1:
                     cursor_y -= 1
