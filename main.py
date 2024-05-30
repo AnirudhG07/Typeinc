@@ -7,22 +7,23 @@ from text_gen import text_gen
 from result import result
 from keyboard import *
 from ui import setup_window
+from input_config import *
 
-
-def main(stdscr, numwords, alphanumeric):
+def main(stdscr):
     """
     The main function will have the following steps:
-    1) Handle the flags, parameters
+    1) Handle the flags, parameters :TODO 
     2) makes the UI and starts whenever the user starts typing
-    3) Shows the results
+    3) Shows the results 
     4) Ask the user if they want to continue
     """
+    #numwords, alphanumeric = input_box(stdscr)
 
     # Initialize color pairs
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
 
-    test_text = text_gen(numwords,alphanumeric)
+    test_text = text_gen(100,0)
     words = test_text.split(" ")
 
     # Clear screen
@@ -51,7 +52,7 @@ def main(stdscr, numwords, alphanumeric):
     # Pre-print the text in the box
     for word in words:
         for char in word:
-            if cursor_x >= box_width - 3:  # If we've reached the end of the line, move to the next line
+            if cursor_x >= box_width - 2:  # If we've reached the end of the line, move to the next line
                 cursor_x = 1
                 cursor_y += 1
             win.addch(cursor_y, cursor_x+1, char, curses.color_pair(3))  # Print the character in white
@@ -70,7 +71,7 @@ def main(stdscr, numwords, alphanumeric):
     while i <= len(test_text): 
         c = win.getch()
         # Check if the user is at the end of the box width
-        if cursor_x >= box_width-2:
+        if cursor_x >= box_width-1:
             cursor_x = 2  # Reset cursor_x
             cursor_y += 1  # Move to the next line
 
@@ -83,20 +84,48 @@ def main(stdscr, numwords, alphanumeric):
             if c == ord(test_text[i]):
                 win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(1)) 
                 cursor_x += 1
-                i += 1
+                i += 1  
             else:
                 win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(2))
                 cursor_x += 1
                 i += 1
                 errors_pos.add(i)
         elif c == 127:  # Backspace key
-            cursor_x -= 1
-            i -= 1
-            win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(3))  # Replace the character with a space
-            win.move(cursor_y, cursor_x)  # Move the cursor back
+            if cursor_x == 2:
+                if cursor_y > 1:
+                    cursor_y -= 1
+                    cursor_x = box_width - 2
+                    i -= 1
+                    win.addch(cursor_y+1, 2, test_text[i+1], curses.color_pair(3))  
+                    win.addch(cursor_y+1, 3, test_text[i+2], curses.color_pair(3))  
+                    win.move(cursor_y, cursor_x)
+            else:
+                cursor_x -= 1
+                if i > 0:
+                    i -= 1
+                    win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(3))  
+                    if cursor_x < box_width - 2:
+                        win.addch(cursor_y, cursor_x+1, test_text[i+1], curses.color_pair(3))  
+                    if cursor_x < box_width - 3:
+                        win.addch(cursor_y, cursor_x+2, test_text[i+2], curses.color_pair(3))  
 
-        elif c == 13: # ENTER KEY for Submitting
-            break
+        elif c in [ord('ă'), ord('Ă'), ord('Ą'), ord('ą')]:
+            if c == ord('ă'): # Up
+                if cursor_y < box_height - 1:
+                    cursor_y +=1
+                    i+= box_width
+            elif c == ord('Ă'): # Down
+                if cursor_y > 1:
+                    cursor_y +=1
+                    i-= box_width
+            elif c == ord('Ą'): # Left
+                if cursor_x > 1:
+                    cursor_x -=1
+                    i-=1
+            elif c == ord('ą'):
+                if cursor_x < box_width - 2:
+                    cursor_x +=1
+                    i+=1
         else:
             if test_text[i] == ' ':
                 win.addch(cursor_y, cursor_x, '_', curses.color_pair(2))
@@ -148,8 +177,5 @@ def main(stdscr, numwords, alphanumeric):
     else:
         exit(0)
 
-
 if __name__ == '__main__':
-    #numwords=int(input("Enter the number of words you want to type: "))
-    #alphanumeric=int(input("Do you want to add special characters? "))
-    curses.wrapper(main, numwords=100, alphanumeric=0)
+    curses.wrapper(main)
