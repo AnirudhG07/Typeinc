@@ -25,7 +25,7 @@ def rule_box(stdscr):
     height, width = stdscr.getmaxyx()
 
     rule_text= """
-    The Typinc Test is just a typing test. You will be graded
+    The Typinc Test is not just a typing test. You will be graded
     on the following rules which you must follow:
     1) Number of words filled in should be between 1 and 1000.
     2) Difficulty level can be any number. Absolutely any!
@@ -81,7 +81,7 @@ def input_box(stdscr):
    ██║      ██║   ██║     ███████╗██║██║ ╚███║╚█████╔╝
    ╚═╝      ╚═╝   ╚═╝     ╚══════╝╚═╝╚═╝  ╚══╝ ╚════╝ 
 ======================================================
- Type and See how crazy your typing speed is! BRUH!!!
+~Type and See how crazy your typing speed is! BRUH!!!~
 ======================================================
     """
 

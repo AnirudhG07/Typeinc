@@ -1,10 +1,9 @@
 import curses
-import random
 import argparse
-import time, subprocess
+import time
 
 from text_gen import text_gen
-from result import result
+from result import *
 from keyboard import *
 from ui import setup_window
 from input_config import *
@@ -15,7 +14,6 @@ def main(stdscr):
     1) Handle the flags, parameters :TODO 
     2) makes the UI and starts whenever the user starts typing
     3) Shows the results 
-    4) Ask the user if they want to continue
     """
     numwords, alphanumeric = input_box(stdscr)
 
@@ -156,12 +154,62 @@ def main(stdscr):
     result(win, alphanumeric, total_words, total_chars, end_time-start_time, errors_pos, test_text)
   
 if __name__ == '__main__':
-    try:
-        curses.wrapper(main)
-    # error handling
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        print("Exiting typinc...")
-    except KeyboardInterrupt:
-        print("Exiting typinc... Keyboard Interrupt")
+    parser = argparse.ArgumentParser(description="""Typing Speed Test- Typeinc. A cool ncurses based typing test.
+Set your own difficulty level and test the abilities of your typing skills.
+For more information, visit official Github Page: https://github.come/AnirudhG07/Typeinc
+
+~ BE THE FASTEST TYPAA YOU COULD EVER BE ~""",
+                                    formatter_class=argparse.RawTextHelpFormatter)
+    # Add the flags
+    parser.add_argument('-v', '--version', action='version', version='Typeinc - version 1.0.0', help = "Show the version of the program.")
+
+    parser.add_argument('-s', '--score', action='store_true',
+                        help='Calculate hypothetical score for input figures.')
+    parser.add_argument('-w', '--words', type=int, default=1,
+                        help='Get random English words from our wordlist. Max 7500')
+
+    # Parse the arguments
+    args = parser.parse_args()
+
+    # Check if any arguments were provided
+    if vars(args):
+        # Handle the flags
+        if args.score:
+            print("All the below entries are floating point numbers. Please fill appropriately :)")        
+            try:
+                wpm = float(input("Enter Words per Minute(wpm): "))
+            except ValueError:
+                print("Invalid input for Words per Minute. Please enter a number.")
+                exit(0)
+            try:
+                diff = float(input("Enter difficulty level: "))
+            except ValueError:
+                print("Invalid input for difficulty level. Please enter a number.")
+                exit
+
+            try:
+                accuracy = float(input("Enter accuracy of your typing: "))
+            except ValueError:
+                print("Invalid input for accuracy. Please enter a number.")
+            
+            print(f"Your calculated Typeinc score is: #{score(wpm, diff, accuracy)}#")
+
+        elif args.words > 0:
+            # Set the number of words for the test
+            num_words = args.words
+            if num_words >=7500:
+                print("We will only display to a maximum of 7500 words.")
+            print("Your word list is:")
+            print(text_gen(num_words, 0))
+
+    else:
+        # Running the main program
+        try:
+            curses.wrapper(main)
+        # error handling
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            print("Exiting typeinc...")
+        except KeyboardInterrupt:
+            print("Exiting typeinc... Keyboard Interrupt")
 

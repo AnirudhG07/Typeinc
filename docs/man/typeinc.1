@@ -1,0 +1,71 @@
+.TH Cheatshh 1 "May 2024" "Typeinc Manual" "Typein Manual Page"
+NAME
+    Typeinc - An amazing ncurses based Terminal UI for testing your typing speed on various difficulty levels with a cool.
+
+SYNOPSIS
+    tyepinc [OPTION]
+    typeinc -v, --version
+
+DESCRIPTION
+    Tyepinc, an ncurses based tool, is your goto terminal tool to play around with your typing speed with various difficulty levels.
+    You get an amazing UI for typing keyboard giving you a feel of both typewriters and keyboards.
+    Get your Tyepinc score and boast to your pals of your speed. Dream to achieve a Granddtypaa!
+
+OPTIONS
+    -h, --help
+        To see the help window.
+    -s, --score
+        Submit figures to calculate hypothetical typeinc score.
+    -w, --words
+        To get random english words present in our wordlist.
+    
+
+FILES
+    Typeinc uses English words taken from a `wordlist.txt` file with more tha 7500 English words.
+    The UI and code handling is done in python using ncurses library.
+
+NOTES
+    Typeinc let's you test your typing speed, from regular to God level difficulty level, from difficulty
+    level of -infinity to +infinity. We provide a range of difficulty level based on which you are graded and
+    given a score. 
+    Here is a detailed summary of the Difficulty level division.
+        - Level <= 0 : Super Easy (Regular) (SE)
+        - 0 < Level <= 2 : Easy (E)
+        - 2 < Level <= 4 : Normal (N)
+        - 4 < Level <= 6 : Hard (H)
+        - 6 < Level <= 9 : Super Hard (SH)
+        - 9 < Level <= 10 : Insane (I)
+        - 10 < Level < 20 : Super Insane (SI)
+        - 20 <= Level < 50: BRUH (X)
+        - 50 <= Level < 100: BRUHH (X2)
+        - 100 <= Level < 500: BRUHHH!! (XX)
+        - 500 <= Level < 1000: DAMNN BRUHHH! (XX2)
+        - 1000 <= Level: GOD BRUH!!! (SXX)
+    
+    The grading system differs for each difficulty level chosen and so is your score. The higher the difficulty level,
+    more the score you will obtain. Visit the official Github page at https://github.com/AnirudhG07/Tyepinc for understanding
+    the grading system for each difficulty level.
+    
+    Note: All the grading, difficulty level, tyepinc score is devised by AnirudhG07. It has not been taken from anywhere
+    and all the numbers set has been made from a fair system and intuition. If you feel like it should be updates, feel free
+    to raise an issue on the Github page, with a valid mathematical reasoning. Thank you!
+    
+EXAMPLES
+    To take the test of typeinc.
+
+        $ typeinc
+        
+    To calcute a hypothetical score, you would have to submit various values.
+
+        $ typeinc -c
+
+    To get random english words from our wordlist.
+
+        $ typeinc -w <positive_integer>
+    
+DEPENDENCIES
+    Tyepinc requires python version >= 3.10 and ncurses library present in your python version.
+
+AUTHOR
+    Typeinc was written by Anirudh Gupta.
+    Visit <https://github.com/AnirudhG07/Typeinc> for more information.
