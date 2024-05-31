@@ -105,7 +105,7 @@ def get_grade(wpm, diff):
                 (50, 250, 'SS', 'Grandtypaa')],
     }
     
-    grade, type_ = next((grade, type_) for min_wpm, max_wpm, grade, type_ in grading.get(difficulty.split()[0], []) if min_wpm <= wpm <= max_wpm), (None, None)
+    grade, type_ = next((grade, type_) for min_wpm, max_wpm, grade, type_ in grading.get(difficulty.split()[0], []) if min_wpm <= wpm <= max_wpm), ('Oops', 'Retry, Some Error Occured')
 
     # Return the grade, type, and difficulty
     return grade, type_, difficulty
@@ -162,7 +162,7 @@ def result(win, diff,  total_words:int, total_chars:int, total_time:float, error
     win.addstr(6, 2, f'Errors made(characters)')
     win.addstr(6, 30, f' {errors}', curses.color_pair(2))
     win.addstr(7, 2, f'Typing speed')
-    win.addstr(7, 30, f' {wpm} WPM', curses.color_pair(1))
+    win.addstr(7, 30, f' {round(wpm,2)} WPM', curses.color_pair(1))
     win.addstr(8, 2, f'Accuracy')
     win.addstr(8, 30, f' {accuracy}%', curses.color_pair(1))
     win.addstr(9, 2, 'Difficulty Level', curses.color_pair(3) )
@@ -175,22 +175,12 @@ def result(win, diff,  total_words:int, total_chars:int, total_time:float, error
     win.addstr(13, 1, '='*52, curses.color_pair(5) | curses.A_BOLD)
     win.addstr(14, 15, 'Thank you for playing!', curses.color_pair(4) | curses.A_BOLD)
     win.refresh()
-    if win.getch() == ord('q'):
-        # Ask if they wanna continue
-        win.clear()
+
+    if wpm >= 200:
+        record_box = curses.newwin(4, 55, start_y + 15, start_x) # height, width, start_y, start_x
+        record_box.box()
+        record_box.addstr(0, 15, 'Record Breaker!', curses.color_pair(4) | curses.A_BOLD)
+        record_box.addstr(1, 15, 'You have a wpm: {wpm} ', curses.color_pair(1))
+        record_box.addstr(2, 15, 'Consider breaking the world record you Grandtypaa!', curses.color_pair(5))
+        record_box.refresh()
         win.refresh()
-        win = curses.newwin(5, 50, start_y, start_x)
-        win.attron(curses.color_pair(7))
-        win.attron(curses.A_BOLD)
-
-        # Create the border
-        win.border('|', '|', '-', '-', '+', '+', '+', '+')
-
-        # Turn off the color or attribute
-        win.attroff(curses.color_pair(7))
-        win.attroff(curses.A_BOLD)
-        win.addstr(1, 15, 'Thank you for playing!', curses.color_pair(1))
-        win.addstr(2, 1, '                          ')
-        win.addstr(3, 5, 'Do you want to play again? (y/n)')
-        win.refresh()
-

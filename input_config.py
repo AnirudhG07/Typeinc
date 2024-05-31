@@ -132,15 +132,25 @@ def input_box(stdscr):
     animate_text(stdscr, start_y + 2, start_x + 2, "Default Difficulty : 0, Enter to continue", 4)
     stdscr.move(start_y + 1, start_x + 30)
     stdscr.refresh()
-    difficulty = "0"
+    difficulty = ""
     while True:
         part = stdscr.getstr(start_y+1, start_x + 30).decode('utf-8')
-        difficulty += part
         if 'q' in part:
             break
+        difficulty += part
         if len(part) < 36:
             break
-    difficulty = int(difficulty)
 
+    # If difficulty is an empty string after stripping whitespace, set it to "0"
+    if not difficulty.strip():
+        difficulty = "0"
+
+    try:
+        difficulty = int(difficulty)
+    except ValueError:
+        curses.endwin()
+        print(f"Invalid input for difficulty: {difficulty}. Please enter a valid number.")
+        return
+    
     stdscr.refresh()
     return num_words, difficulty

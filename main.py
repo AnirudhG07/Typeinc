@@ -156,4 +156,12 @@ def main(stdscr):
     result(win, alphanumeric, total_words, total_chars, end_time-start_time, errors_pos, test_text)
   
 if __name__ == '__main__':
-    curses.wrapper(main)
+    try:
+        curses.wrapper(main)
+    # error handling
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        print("Exiting typinc...")
+    except KeyboardInterrupt:
+        print("Exiting typinc... Keyboard Interrupt")
+
