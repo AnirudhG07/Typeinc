@@ -41,9 +41,9 @@ def get_grade(wpm, diff):
     9< diff <=10 : Insane (I)
     10< diff <20 : Super Insane (SI)
     20<= diff < 50: BRUH (X)
-    50 <= diff < 100: BRUHH (X2)
-    100<= diff < 500: BRUHHH!! (XX)
-    500 <= diff < 1000: DAMNN BRUHHH! (XX2)
+    50 <= diff < 100: SUPER BRUHH (X2)
+    100<= diff < 500: DAMNN BRUHHH!! (XX)
+    500 <= diff < 1000: U ROCK BRUHHH! (XX2)
     1000<= diff: GOD BRUH!!! (SXX)
 
     """
@@ -57,9 +57,9 @@ def get_grade(wpm, diff):
         (lambda x: 9 <= x < 10, 'I Insane'),
         (lambda x: 10 <= x < 20, 'SI Super Insane'),
         (lambda x: 20 <= x < 50, 'X BRUH'),
-        (lambda x: 50 <= x < 100, 'X2 BRUHH'),
-        (lambda x: 100 <= x < 500, 'XX BRUHHH!!'),
-        (lambda x: 500 <= x < 1000, 'XX2 DAMNN BRUHHH!'),
+        (lambda x: 50 <= x < 100, 'X2 SUPER BRUHH'),
+        (lambda x: 100 <= x < 500, 'XX DAMNN BRUHHH!!'),
+        (lambda x: 500 <= x < 1000, 'XX2 U ROCK BRUHHH!'),
         (lambda x: 1000 <= x, 'SXX GOD BRUH!!!')
 ]
 
@@ -67,42 +67,42 @@ def get_grade(wpm, diff):
     difficulty = next(d for r, d in ranges if r(diff))
 
     grading = {
-        'SE': [(0, 24, 'E', 'Beginner'), (25, 45, 'D', 'Novice'), (46, 65, 'C', 'Intermediate'),
-               (61, 90, 'B', 'Proficient'), (91, 120, 'A', 'Advanced'), (121, 159, 'S', 'Expert'),
-               (160, 250, 'SS', 'Grandtypaa')],
-        'E': [(0, 20, 'E', 'Beginner'), (21, 39, 'D', 'Novice'), (40, 54, 'C', 'Intermediate'),
-              (56, 71, 'B', 'Proficient'), (72, 90, 'A', 'Advanced'), (91, 108, 'S', 'Expert'),
-              (144, 250, 'SS', 'Grandtypaa')],
-        'N': [(0, 18, 'E', 'Beginner'), (17, 32, 'D', 'Novice'), (33, 48, 'C', 'Intermediate'),
-              (49, 64, 'B', 'Proficient'), (65, 80, 'A', 'Advanced'), (81, 96, 'S', 'Expert'),
-              (132, 250, 'SS', 'Grandtypaa')],
-        'H': [(0, 16, 'E', 'Beginner'), (15, 28, 'D', 'Novice'), (29, 42, 'C', 'Intermediate'),
-              (43, 56, 'B', 'Proficient'), (57, 70, 'A', 'Advanced'), (71, 84, 'S', 'Expert'),
-              (120, 250, 'SS', 'Grandtypaa')],
-        'SH': [(0, 14, 'E', 'Beginner'), (13, 24, 'D', 'Novice'), (25, 36, 'C', 'Intermediate'),
-               (37, 48, 'B', 'Proficient'), (49, 60, 'A', 'Advanced'), (61, 72, 'S', 'Expert'),
-               (108, 250, 'SS', 'Grandtypaa')],
-        'I': [(0, 13, 'E', 'Beginner'), (11, 20, 'D', 'Novice'), (21, 30, 'C', 'Intermediate'),
-              (31, 40, 'B', 'Proficient'), (41, 50, 'A', 'Advanced'), (51, 60, 'S', 'Expert'),
-              (96, 250, 'SS', 'Grandtypaa')],
-        'SI': [(0, 10, 'E', 'Beginner'), (9, 16, 'D', 'Novice'), (17, 24, 'C', 'Intermediate'),
-               (25, 32, 'B', 'Proficient'), (33, 40, 'A', 'Advanced'), (41, 48, 'S', 'Expert'),
-               (90, 250, 'SS', 'Grandtypaa')],
-        'X': [(0, 8, 'E', 'Beginner'), (7, 12, 'D', 'Novice'), (13, 18, 'C', 'Intermediate'),
-              (19, 24, 'B', 'Proficient'), (25, 30, 'A', 'Advanced'), (31, 36, 'S', 'Expert'),
-              (82, 250, 'SS', 'Grandtypaa')],
-        'X2': [(0, 6, 'E', 'Beginner'), (7, 16, 'D', 'Novice'), (17, 30, 'C', 'Intermediate'),
-               (31, 46, 'B', 'Proficient'), (47, 65, 'A', 'Advanced'), (66, 74, 'S', 'Expert'),
-               (75, 250, 'SS', 'Grandtypaa')],
-        'XX': [(0, 5, 'E', 'Beginner'), (6, 18, 'D', 'Novice'), (19, 32, 'C', 'Intermediate'),
-               (33, 45, 'B', 'Proficient'), (46, 55, 'A', 'Advanced'), (56, 64, 'S', 'Expert'),
-               (65, 250, 'SS', 'Grandtypaa')],
-        'XX2': [(0, 4, 'E', 'Beginner'), (5, 15, 'D', 'Novice'), (16, 25, 'C', 'Intermediate'),
-                (26, 38, 'B', 'Proficient'), (39, 47, 'A', 'Advanced'), (48, 56, 'S', 'Expert'),
-                (57, 250, 'SS', 'Grandtypaa')],
-        'SXX': [(0, 3, 'E', 'Beginner'), (4, 7, 'D', 'Novice'), (8, 10, 'C', 'Intermediate'),
-                (11, 18, 'B', 'Proficient'), (18, 30, 'A', 'Advanced'), (31, 49, 'S', 'Expert'),
-                (50, 250, 'SS', 'Grandtypaa')],
+        'SE': [(0, 24, 'E', 'Beginner'), (24, 45, 'D', 'Novice'), (45, 65, 'C', 'Intermediate'),
+               (65, 90, 'B', 'Proficient'), (90, 120, 'A', 'Advanced'), (120, 159, 'S', 'Expert'),
+               (159, 20000, 'SS', 'Grandtypaa')],
+        'E': [(0, 20, 'E', 'Beginner'), (20, 42, 'D', 'Novice'), (42, 54, 'C', 'Intermediate'),
+              (54, 80, 'B', 'Proficient'), (80, 110, 'A', 'Advanced'), (110, 144, 'S', 'Expert'),
+              (144, 20000, 'SS', 'Grandtypaa')],
+        'N': [(0, 18, 'E', 'Beginner'), (17, 38, 'D', 'Novice'), (38, 48, 'C', 'Intermediate'),
+              (48, 72, 'B', 'Proficient'), (72, 100, 'A', 'Advanced'), (100, 132, 'S', 'Expert'),
+              (132, 20000, 'SS', 'Grandtypaa')],
+        'H': [(0, 16, 'E', 'Beginner'), (15, 34, 'D', 'Novice'), (34, 42, 'C', 'Intermediate'),
+              (42, 64, 'B', 'Proficient'), (64, 90, 'A', 'Advanced'), (90, 120, 'S', 'Expert'),
+              (120, 20000, 'SS', 'Grandtypaa')],
+        'SH': [(0, 14, 'E', 'Beginner'), (13, 30, 'D', 'Novice'), (30, 38, 'C', 'Intermediate'),
+               (38, 58, 'B', 'Proficient'), (58, 80, 'A', 'Advanced'), (80, 108, 'S', 'Expert'),
+               (108, 20000, 'SS', 'Grandtypaa')],
+        'I': [(0, 13, 'E', 'Beginner'), (11, 26, 'D', 'Novice'), (26, 34, 'C', 'Intermediate'),
+              (34, 49, 'B', 'Proficient'), (49, 72, 'A', 'Advanced'), (72, 96, 'S', 'Expert'),
+              (96, 20000, 'SS', 'Grandtypaa')],
+        'SI': [(0, 10, 'E', 'Beginner'), (10, 24, 'D', 'Novice'), (24, 30, 'C', 'Intermediate'),
+               (30, 42, 'B', 'Proficient'), (42, 69, 'A', 'Advanced'), (69, 90, 'S', 'Expert'),
+               (90, 20000, 'SS', 'Grandtypaa')],
+        'X': [(0, 8, 'E', 'Beginner'), (9, 22, 'D', 'Novice'), (22, 26, 'C', 'Intermediate'),
+              (26, 39, 'B', 'Proficient'), (39, 60, 'A', 'Advanced'), (60, 82, 'S', 'Expert'),
+              (82, 20000, 'SS', 'Grandtypaa')],
+        'X2': [(0, 6, 'E', 'Beginner'), (7, 18, 'D', 'Novice'), (18, 24, 'C', 'Intermediate'),
+               (24, 36, 'B', 'Proficient'), (36, 54, 'A', 'Advanced'), (54, 75, 'S', 'Expert'),
+               (75, 20000, 'SS', 'Grandtypaa')],
+        'XX': [(0, 5, 'E', 'Beginner'), (6, 16, 'D', 'Novice'), (16, 20, 'C', 'Intermediate'),
+               (20, 28, 'B', 'Proficient'), (28, 46, 'A', 'Advanced'), (46, 65, 'S', 'Expert'),
+               (65, 20000, 'SS', 'Grandtypaa')],
+        'XX2': [(0, 4, 'E', 'Beginner'), (5, 12, 'D', 'Novice'), (12, 16, 'C', 'Intermediate'),
+                (16, 24, 'B', 'Proficient'), (24, 38, 'A', 'Advanced'), (38, 57, 'S', 'Expert'),
+                (57, 20000, 'SS', 'Grandtypaa')],
+        'SXX': [(0, 3, 'E', 'Beginner'), (3, 7, 'D', 'Novice'), (7, 10, 'C', 'Intermediate'),
+                (10, 18, 'B', 'Proficient'), (18, 30, 'A', 'Advanced'), (30, 50, 'S', 'Expert'),
+                (50, 20000, 'SS', 'Grandtypaa')],
     }
     
     grade, type_ = next((grade, type_) for min_wpm, max_wpm, grade, type_ in grading.get(difficulty.split()[0], []) if min_wpm <= wpm <= max_wpm), ('Oops', 'Retry, Some Error Occured')
@@ -184,3 +184,9 @@ def result(win, diff,  total_words:int, total_chars:int, total_time:float, error
         record_box.addstr(2, 15, 'Consider breaking the world record you Grandtypaa!', curses.color_pair(5))
         record_box.refresh()
         win.refresh()
+    
+    if win.getch():
+        curses.endwin()
+        import time
+        print("Why exit when you can play again? Come on, give it another shot!")
+        return

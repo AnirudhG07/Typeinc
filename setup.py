@@ -61,7 +61,6 @@ setup(
         "argparse",
         "random",
         "curses"
-        "" 
     ],
     python_requires='>=3.9',
     entry_points={

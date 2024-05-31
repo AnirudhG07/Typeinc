@@ -114,7 +114,10 @@ def input_box(stdscr):
         num_words += part
         if len(part) < 36:
             break
-    num_words = int(num_words)
+    try:
+        num_words = int(num_words)
+    except:
+        num_words = 1
     if num_words>=7500:
         num_words = 7500
 
