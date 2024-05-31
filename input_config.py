@@ -108,9 +108,9 @@ def input_box(stdscr):
     curses.echo()
     num_words = ""
     while True:
-        if stdscr.getch() == ord('q'):
-            break
         part = stdscr.getstr(start_y, start_x + 29).decode('utf-8')
+        if 'q' in part:
+            break
         num_words += part
         if len(part) < 36:
             break
@@ -123,19 +123,21 @@ def input_box(stdscr):
         print(f"Please explain me how you can type {num_words} words")
     elif num_words>1000:
         curses.endwin()
-        print(f"Maximum number of words is 1000. If you want to get yourself in trouble, then choose higher difficulty, that will increase the number of letters to type. Good Luck!")
+        print(f"Maximum number of words is 999. If you want to get yourself in trouble, then choose higher difficulty, that will increase the number of letters to type. Good Luck!")
     else:
         pass
     # Prompt for the difficulty level
     animate_text(stdscr, start_y + 1, start_x + 2, "Enter the difficulty level: ", 5)
     animate_text(stdscr, start_y + 1, start_x + 30, "0", 3)
     animate_text(stdscr, start_y + 2, start_x + 2, "Default Difficulty : 0, Enter to continue", 4)
+    stdscr.move(start_y + 1, start_x + 30)
+    stdscr.refresh()
     difficulty = "0"
     while True:
-        if stdscr.getch() == ord('q'):
-            break
         part = stdscr.getstr(start_y+1, start_x + 30).decode('utf-8')
         difficulty += part
+        if 'q' in part:
+            break
         if len(part) < 36:
             break
     difficulty = int(difficulty)

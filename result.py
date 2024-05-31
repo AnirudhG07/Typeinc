@@ -14,13 +14,13 @@ def score(wpm, diff, accuracy):
         (lambda x: 1 <= x < 3, 15),
         (lambda x: 3 <= x < 5, 50),
         (lambda x: 5 <= x < 7, 150),
-        (lambda x: 7 <= x < 10, 300),
-        (lambda x: 10 <= x < 20, 370),
+        (lambda x: 7 <= x < 10, 240),
+        (lambda x: 10 <= x < 20, 350),
         (lambda x: 20 <= x < 50, 480),
-        (lambda x: 50 <= x < 100, 600),
-        (lambda x: 100 <= x < 500, 750),
-        (lambda x: 500 <= x < 1000, 1000),
-        (lambda x: 1000 <= x, float('inf'))
+        (lambda x: 50 <= x < 100, 560),
+        (lambda x: 100 <= x < 500, 690),
+        (lambda x: 500 <= x < 1000, 850),
+        (lambda x: 1000 <= x, 1000)
     ]
 
     # Find the multiplier for the given diff

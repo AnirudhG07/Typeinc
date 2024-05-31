@@ -42,8 +42,7 @@ def main(stdscr):
     total_words = len(words)
     total_chars = len(test_text) # including spaces
     errors_pos = set()
-    start_time = time.time()
-
+    start_time = 0
     i = 0  # The current index in the words list
     cursor_y, cursor_x = 1, 1
     
@@ -62,6 +61,8 @@ def main(stdscr):
 
     while i < len(test_text): 
         c = win.getch()
+        if i ==0:
+            start_time = time.time()
         # Check if the user is at the end of the box width
         if cursor_x >= box_width-1:
             cursor_x = 2  # Reset cursor_x
