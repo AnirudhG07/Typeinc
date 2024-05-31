@@ -2,11 +2,11 @@ import curses
 import argparse
 import time
 
-from text_gen import text_gen
-from result import *
-from keyboard import *
-from ui import setup_window
-from input_config import *
+from configurations.text_gen import text_gen
+from configurations.result import *
+from configurations.keyboard import *
+from configurations.ui import setup_window
+from configurations.input_config import *
 
 def main(stdscr):
     """
