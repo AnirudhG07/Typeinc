@@ -1,4 +1,4 @@
-import curses
+import curses, time
 
 def setup_window(stdscr):
     curses.initscr()
@@ -29,6 +29,22 @@ def setup_window(stdscr):
 
     key_box.box()
     key_box.refresh()
+    initial_time = time.time()
+    options = curses.newwin(13, 30, 10 , 130) # height, width, y, x
+    options.addstr(1, 10, f"OPTIONS", curses.color_pair(4) | curses.A_BOLD)
+    options.addstr(2, 1, "="*30, curses.color_pair(1))
+    options.addstr(3, 1, "> Press Ctrl C to exit", curses.color_pair(5))
+    options.addstr(4, 1, "> Press Ctrl R to restart", curses.color_pair(5))
+    options.addstr(5, 1, "> Press Backspace to delete", curses.color_pair(5))
+    options.addstr(6, 1, "> Don't mess with arrow keys", curses.color_pair(5))
+    options.addstr(7, 1, " ", curses.color_pair(5))
+    options.addstr(8, 10, "TIMER", curses.color_pair(4) | curses.A_BOLD)
+    options.addstr(9, 1, "="*30, curses.color_pair(1))
+    options.addstr(10, 7, f" {0:.2f} second", curses.color_pair(5))
+    # Create a new thread for the ticking clock
+    
+    options.box()
+    options.refresh()
 
     return win, box_width, box_height
 

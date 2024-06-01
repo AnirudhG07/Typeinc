@@ -98,27 +98,28 @@ def display_highscore(stdscr, difficulty):
             return
         
     name_length = max(len(result['name']) for result in scores[difficulty].values())
+    name_length = max(name_length, len("Name"))
     wpm_length = max(len(str(result['wpm'])) for result in scores[difficulty].values())
     grade_length = max(len(str(result['grade'])) for result in scores[difficulty].values())
     score_length = max(len(str(result['typeinc score'])) for result in scores[difficulty].values())
+    serial_length = 4
 
     stdscr.addstr(12, start_x, "{}Top 10 Highscore for Typeinc Test(local)\n".format(' '*(start_x-15)), curses.color_pair(6) | curses.A_BOLD)
     stdscr.addstr(13, 20, "\n {} Difficulty Level: {}\n\n".format(' '*(start_x+20), difficulty.upper()), curses.color_pair(2) | curses.A_BOLD)
     stdscr.refresh()
-    stdscr.addstr(15,start_x," +{}+{}+{}+{}+\n".format('-'*(name_length+2), '-'*(wpm_length+2), '-'*(grade_length+2), '-'*(score_length+2)), curses.color_pair(5) | curses.A_BOLD)
-    stdscr.addstr(16,start_x," | Name{} | WPM{} | Grade{} | Score{} |\n".format(' '*(name_length-4), ' '*(wpm_length-3), ' '*(grade_length-5), ' '*(score_length-5)), curses.color_pair(6) | curses.A_BOLD)
-    stdscr.addstr(17,start_x," +{}+{}+{}+{}+\n".format('-'*(name_length+2), '-'*(wpm_length+2), '-'*(grade_length+2), '-'*(score_length+2)), curses.color_pair(5) | curses.A_BOLD)
+    stdscr.addstr(15,start_x-3," +{}+{}+{}+{}+{}+\n".format('-'*(serial_length+2),'-'*(name_length+2), '-'*(wpm_length+2), '-'*(grade_length+2), '-'*(score_length+2)), curses.color_pair(5) | curses.A_BOLD)
+    stdscr.addstr(16,start_x-3," | Sr.  | Name{} | WPM{} | Grade{} | Score{} |\n".format(' '*(name_length-4), ' '*(wpm_length-3), ' '*(grade_length-5), ' '*(score_length-5)), curses.color_pair(6) | curses.A_BOLD)
+    stdscr.addstr(17,start_x-3," +{}+{}+{}+{}+{}+\n".format('-'*(serial_length+2),'-'*(name_length+2), '-'*(wpm_length+2), '-'*(grade_length+2), '-'*(score_length+2)), curses.color_pair(5) | curses.A_BOLD)
     i=18
     top10=0
     try:
-        while top10<10:
-            for time, result in scores[difficulty].items():
-                stdscr.addstr(i, start_x, f" | {result['name']:<{name_length}} | {result['wpm']:<{wpm_length}} | {' '.join(result['grade']):<{grade_length}} | {result['typeinc score']:<{score_length}} |\n", curses.color_pair(1) | curses.A_BOLD)
-                stdscr.addstr(i+1, start_x," +{}+{}+{}+{}+\n".format('-'*(name_length+2), '-'*(wpm_length+2), '-'*(grade_length+2), '-'*(score_length+2)), curses.color_pair(5) | curses.A_BOLD)
-                i+=2
-                top10+=1
-                if top10==10:
-                    break
+        for index, (time, result) in enumerate(scores[difficulty].items(), start=1):
+            if top10 >= 10:
+                break
+            stdscr.addstr(i, start_x-3, f" | {index:<{serial_length}} | {result['name']:<{name_length}} | {result['wpm']:<{wpm_length}} | {' '.join(result['grade']):<{grade_length}} | {result['typeinc score']:<{score_length}} |\n", curses.color_pair(1) | curses.A_BOLD)
+            stdscr.addstr(i+1, start_x-3," +{}+{}+{}+{}+{}+\n".format('-'*(serial_length+2), '-'*(name_length+2), '-'*(wpm_length+2), '-'*(grade_length+2), '-'*(score_length+2)), curses.color_pair(5) | curses.A_BOLD)
+            i+=2
+            top10+=1
     except:
         stdscr.addstr("Some error occured while displaying the highscores. Please make sure you are in full screen.")
 
