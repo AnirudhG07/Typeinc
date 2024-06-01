@@ -13,12 +13,13 @@ DESCRIPTION
 
 OPTIONS
     -h, --help
-        To see the help window.
+        To see the help message.
     -s, --score
         Submit figures to calculate hypothetical typeinc score.
     -w, --words
         To get random english words present in our wordlist.
-    
+    -r, --ranklist
+        Display the top 10 ranks of input difficulty level.
 
 FILES
     Typeinc uses English words taken from a `wordlist.txt` file with more tha 7500 English words.
@@ -44,15 +45,11 @@ NOTES
         - 1000 <= Level: GOD BRUH!!! (SXX)
     
     The grading system differs for each difficulty level chosen and so is your score. The higher the difficulty level,
-    more the score you will obtain. Visit the official Github page at https://github.com/AnirudhG07/Tyepinc for understanding
+    more the score you will obtain. Visit the official Github page at https://github.com/AnirudhG07/Typeinc for understanding
     the grading system for each difficulty level.
     
-    Note: All the grading, difficulty level, tyepinc score is devised by AnirudhG07. It has not been taken from anywhere
-    and all the numbers set has been made from a fair system and intuition. If you feel like it should be updates, feel free
-    to raise an issue on the Github page, with a valid mathematical reasoning. Thank you!
-    
 EXAMPLES
-    To take the test of typeinc.
+    To take the Typeinc test.
 
         $ typeinc
         
@@ -63,6 +60,10 @@ EXAMPLES
     To get random english words from our wordlist.
 
         $ typeinc -w <positive_integer>
+
+    To display the top 10 ranks for input difficulty level.
+
+        $ typeinc -r <difficulty_level>
     
 DEPENDENCIES
     Tyepinc requires python version >= 3.9 and ncurses library present in your python version.

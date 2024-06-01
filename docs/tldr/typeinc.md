@@ -10,8 +10,12 @@
 
 - Get random English [w]ords from our word list:
 
-`cheatshh --words <positive_integer>`
+`typeinc --words <positive_integer>`
 
 - Seek [h]elp for understanding basic rules to follow:
 
 `cheatshh --help`
+
+- Display top 10 [r]anklist of chosen difficulty level:
+
+`typeinc --ranklist`
