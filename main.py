@@ -12,23 +12,18 @@ from scores.highscore import store_result, display_highscore
 
 def restart(win, words, box_width, box_height):
     cursor_y, cursor_x = 1, 1
-    buffer = []
     for word in words:
         for char in word:
             if cursor_x >= box_width - 2:  # If we've reached the end of the line, move to the next line
                 cursor_x = 1
                 cursor_y += 1
-            if cursor_y >= box_height:  # If we've reached the bottom of the box, store the word in the buffer
-                buffer.append(word)
-                break
             win.addch(cursor_y, cursor_x+1, char, curses.color_pair(3))  # Print the character in white
             cursor_x += 1
-        win.addch(cursor_y, cursor_x+1, ' ')  
         cursor_x += 1  # Add a space after each word
     cursor_x, cursor_y = 2, 1
     start_time = time.time()
     # Reset the cursor position
-    return cursor_x, cursor_y, start_time, buffer
+    return cursor_x, cursor_y, start_time
 
 def main(stdscr):
     """
@@ -44,7 +39,7 @@ def main(stdscr):
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
 
     test_text = text_gen(numwords, alphanumeric)
-    words = test_text.split(" ")
+    # words = test_text.split(" ")
 
     # Clear screen
     stdscr.clear()
@@ -57,6 +52,9 @@ def main(stdscr):
 
     stdscr.refresh()
     win.refresh()
+    max_chars = (box_width -1) * (box_height-2) 
+    test_text = test_text[:max_chars]  # Limit the text to the size of the box
+    words = test_text.split(" ")
 
     # Initialize variables
     total_words = len(words)
@@ -65,7 +63,6 @@ def main(stdscr):
     start_time = 0
     i = 0  # The current index in the words list
     cursor_y, cursor_x = 1, 1
-    
     # Pre-print the text in the box
     for word in words:
         for char in word:
@@ -84,13 +81,12 @@ def main(stdscr):
         if i ==0:
             start_time = time.time()
         # Check if the user is at the end of the box width
-        if cursor_x >= box_width-1:
-            cursor_x = 2  # Reset cursor_x
-            cursor_y += 1  # Move to the next line
-
         if c == ord(test_text[i]) and c != ord(' '):
             win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(1)) # Color the character green
             cursor_x += 1
+            if cursor_x == box_width - 1:
+                cursor_x = 2
+                cursor_y += 1
             i += 1
         
         elif c == ord(' '):
@@ -98,9 +94,15 @@ def main(stdscr):
                 win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(1)) 
                 cursor_x += 1
                 i += 1  
+                if cursor_x == box_width - 1:
+                    cursor_x = 2
+                    cursor_y += 1
             else:
                 win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(2))
                 cursor_x += 1
+                if cursor_x == box_width - 1:
+                    cursor_x = 2
+                    cursor_y += 1
                 i += 1
                 errors_pos.add(i)
         elif c == 127:  # Backspace key
@@ -120,19 +122,22 @@ def main(stdscr):
                     win.move(cursor_y, cursor_x)
             else:
                 cursor_x -= 1
-                if i > 0:
-                    i -= 1
-                    win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(3))  
-                    try:
-                        if cursor_x < box_width - 2:
-                            win.addch(cursor_y, cursor_x+1, test_text[i+1], curses.color_pair(3))  
-                    except:
-                            win.addch(cursor_y, cursor_x+1, ' ', curses.color_pair(3))
-                    try:
-                        if cursor_x < box_width - 3:
-                            win.addch(cursor_y, cursor_x+2, test_text[i+2], curses.color_pair(3))  
-                    except:
-                            win.addch(cursor_y, cursor_x+2, ' ', curses.color_pair(3))
+                i -= 1
+                win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(3))  
+                try:
+                    if cursor_x < box_width - 2:
+                        win.addch(cursor_y, cursor_x+1, test_text[i+1], curses.color_pair(3))  
+                    else:
+                        win.addch(cursor_y, cursor_x+1, '|', curses.color_pair(3))
+                except:
+                    pass
+                try:
+                    if cursor_x < box_width - 3:
+                        win.addch(cursor_y, cursor_x+2, test_text[i+2], curses.color_pair(3))  
+                    else:
+                        win.addch(cursor_y, cursor_x+2, '|', curses.color_pair(3))
+                except:
+                    pass
 
         elif c == 18: # Restart the test
             if i == len(test_text)-1:
@@ -141,7 +146,7 @@ def main(stdscr):
                 win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(3))
                 win.addch(cursor_y, cursor_x+1, test_text[i+1], curses.color_pair(3))
 
-            cursor_x, cursor_y, start_time = restart(win, words, box_width)
+            cursor_x, cursor_y, start_time = restart(win, words, box_width, box_height)
             i = 0
             errors_pos = set()
             win.refresh()
@@ -154,11 +159,19 @@ def main(stdscr):
                 errors_pos.add(i)
                 cursor_x += 1
                 i += 1
+                if cursor_x == box_width-1:
+                    cursor_x = 2  # Reset cursor_x
+                    cursor_y += 1  # Move to the next line
+                    win.refresh()
             else:
                 win.addch(cursor_y, cursor_x, test_text[i], curses.color_pair(2)) # Color the character red
                 errors_pos.add(i)
                 cursor_x += 1
                 i += 1
+                if cursor_x == box_width-1:
+                    cursor_x = 2  # Reset cursor_x
+                    cursor_y += 1  # Move to the next line
+                    win.refresh()
         ### TIMER ##
         initial_time = time.time()
         stdscr.addstr(20, 138, f"{round(initial_time - start_time, 2)} seconds", curses.color_pair(5))
@@ -183,7 +196,7 @@ def main(stdscr):
                 stdscr.addstr(y + 1, x, characters[key])
                 # Clear the screen and refresh
                 stdscr.refresh()
-                time.sleep(0.02)
+                time.sleep(0.015) # For 2000 wpm, the delay would be 0.005, for delay of 0.015, the wpm would be max 800.
                 # Erase the key at the new position
                 stdscr.addstr(y + 1, x, ' ' * len(characters[key]))
                 # Print the key at its original position
