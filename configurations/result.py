@@ -1,9 +1,9 @@
 import curses
 
-def calculate_wpm_and_accuracy(correct_words: int, total_chars:int,  total_time: float, errors: int) -> tuple:
+def calculate_wpm_and_accuracy(correct_chars: int, correct_words:int, total_chars:int,  total_time: float, errors: int) -> tuple:
     if total_time == 0 or total_chars == 0:
         return 0, 0
-    wpm = correct_words / (total_time / 60)
+    wpm = (correct_chars)/5 / (total_time / 60)
     accuracy = ((total_chars - errors) / total_chars) * 100
     return wpm, accuracy
 
@@ -64,7 +64,7 @@ def get_grade(wpm, diff):
 ]
 
     # Find the difficulty level for the given diff
-    difficulty = next(d for r, d in ranges if r(diff))
+    difficulty = next(d for r, d in ranges if r(diff)) # difficulty is a string
 
     grading = {
         'SE': [(0, 24, 'E', 'Beginner'), (24, 45, 'D', 'Novice'), (45, 65, 'C', 'Intermediate'),
@@ -126,14 +126,21 @@ def result(win, diff,  total_words:int, total_chars:int, total_time:float, error
     # getting correct words
     words = test_text.split()
     correct_words = 0
+    correct_chars = 0
     start_index = 0
     for word in words:
         if not any(i in errors_pos for i in range(start_index, start_index + len(word))):
             correct_words += 1
+            correct_chars += len(word)
         start_index += len(word) + 1  # +1 to account for the space after
+        try:
+            if test_text[start_index-1]==' ' and start_index - 1 not in errors_pos:  # Check if the space after the word is not an error
+                correct_chars += 1
+        except:
+            pass
     
     errors= len(errors_pos)
-    wpm, accuracy = calculate_wpm_and_accuracy(correct_words, total_chars, total_time, errors)
+    wpm, accuracy = calculate_wpm_and_accuracy(correct_chars, correct_words, total_chars, total_time, errors)
     grade_type, _ , difficulty = get_grade(wpm, diff)
     grade, type_ = grade_type[0], grade_type[1]
     # Clear the screen
@@ -150,7 +157,7 @@ def result(win, diff,  total_words:int, total_chars:int, total_time:float, error
     win = curses.newwin(15, 55, start_y, start_x) # height, width, start_y, start_x
     # Make a box in the centre of screen and print the content in it
     win.box()
-    win.addstr(0, 15, 'Typing Test Results', curses.color_pair(4) | curses.A_BOLD)
+    win.addstr(0, 18, 'Typing Test Results', curses.color_pair(4) | curses.A_BOLD)
     win.addstr(1,1,'='*52, curses.color_pair(5) | curses.A_BOLD)
     win.addstr(2, 1, f'                            ')
     win.addstr(3, 2, f'Total Words typed')
@@ -173,20 +180,17 @@ def result(win, diff,  total_words:int, total_chars:int, total_time:float, error
     win.addstr(11, 30, f' {score(wpm, diff, accuracy)}', curses.color_pair(1))
     win.addstr(12, 15, f'Press q to exit', curses.color_pair(2))
     win.addstr(13, 1, '='*52, curses.color_pair(5) | curses.A_BOLD)
-    win.addstr(14, 15, 'Thank you for playing!', curses.color_pair(4) | curses.A_BOLD)
+    win.addstr(14, 16, 'Thank you for playing!', curses.color_pair(4) | curses.A_BOLD)
     win.refresh()
 
     if wpm >= 200:
         record_box = curses.newwin(4, 55, start_y + 15, start_x) # height, width, start_y, start_x
         record_box.box()
-        record_box.addstr(0, 15, 'Record Breaker!', curses.color_pair(4) | curses.A_BOLD)
-        record_box.addstr(1, 15, 'You have a wpm: {wpm} ', curses.color_pair(1))
-        record_box.addstr(2, 15, 'Consider breaking the world record you Grandtypaa!', curses.color_pair(5))
+        record_box.addstr(0, 20, 'Record Breaker!', curses.color_pair(4) | curses.A_BOLD)
+        record_box.addstr(1, 2, f'You have a wpm: {wpm} ', curses.color_pair(1))
+        record_box.addstr(2, 2, 'Consider breaking the world record, you Grandtypaa!', curses.color_pair(5))
         record_box.refresh()
         win.refresh()
     
     if win.getch():
-        curses.endwin()
-        import time
-        print("Why exit when you can play again? Come on, give it another shot!")
-        return
+        return wpm, grade, type_, difficulty, score(wpm, diff, accuracy)

@@ -1,22 +1,26 @@
 # Calculation of WPM
 
-Typeinc follows Character based Formula.<br>
-It's the international standard formula for typing test. This formula is independent from exercise text. Means give a justified result with any passage your are typing.
+Typeinc follows Character based Formula:
+<br>
+It's the international standard formula for typing test, but with some tweeks. This formula is independent from exercise text. Thus it gives you a justified result with any passage your are typing.
 ```
-Gross WPM = (Typed Characters/5)/(Time in minutes)
+WPM = (Typed Characters/5)/(Time in minutes)
 ## Here WPM = Word Per Minute
 ```
-All typed entries = Total Key Strokes (or key depression)
+All typed entries = Total Key Strokes (or key depression).<br>
+The catch is that the typed characters are basically from correct words and spaces typed.<br>
 
-Gross WPM is really the typing speed that you typed in one minute its getting by total key Stroke (Key depression) divided by 5 (One word = 5 character) and then divided by total minute to get word per minute speed.
+For example: The sentence you get is `"Amazing apple am intelligent"`, while your friend gets "`Hi apple this are"`. It is unfair to just see correct words, but we take the net correct characters from the correct words and then use the above formula. Thus it is independent of what sentence you get that you will get a fair WPM.
 
-If you type 200 character/keystroke in 1 minute then your typing speed will be = 200 / 5 = 40 WPM
+If you type 200 character(or keystroke) in 1 minutem, which are within correct words, then your typing speed will be = 200 / 5 = 40 WPM
 
-**IMPORTANT:** In Typeinc, we just display 2 rounded decimal place, but the value used throughout has many more decimal places. Hence getting exact 40 (non displayed) is a miracle I would say.
+**IMPORTANT:** In Typeinc, we just display 2 rounded decimal place, but the value used throughout has many more decimal places. Hence getting exact wpm = 40 (not displayed) is a miracle I would say.
 
 # Time taken
 The moment you start typing till the last character difference is the time taken by you. Thus it is impossible for you to backspace your last character(else you may wait for the program to automatically stop, which it won't). <br>
-Time taken is calculated using the python library `time`. Thus any small difference in actual time may be caused due to code execution or time library. 
+Time taken is calculated using the python library `time`. Thus any small difference in actual time may be caused due to code execution or time library.
+
+When you restart, the start time is set to zero which starts again when you start typing till the end.
 
 # Accuracy
 Accuracy is calculated by -
@@ -24,7 +28,7 @@ Accuracy is calculated by -
 Accuracy = 100 - (incorrect characters typed)/(total characters)*100
 ```
 We do not count the character position you did pressed backspace for, although they are counted in the Correct words. So don't think their is no use of backspacing.
-https://indiatyping.com/index.php/typing-tips/typing-speed-calculation-formula
+
 # Grading System Explanation
 
 The Grading system has been set seperately for each of the difficulty levels.<br>
@@ -36,7 +40,7 @@ Look at the below given division for Grading for each difficulty level.
 ### Super Easy Regular level (SE)
 
 | WPM Range | Grade | Level |
-| --------- | ----- | ----- |
+| -------- | ----- | ----- |
 | 0-24      | E     | Beginner |
 | 24-45     | D     | Novice |
 | 45-65     | C     | Intermediate |
@@ -180,9 +184,19 @@ Look at the below given division for Grading for each difficulty level.
 All these numbers are well thought and come up by AnirudhG07, as mentioned before.
 
 # Typeinc score
-Typeinc score is a simple formula which gets a big decimal number which you obtain by multiplying wpm, accuracy and difficulty level multiplier factor. The total time factor is already taken into consideration when calculating wpm. <br>
-The multiplier factor is highly unfair to those trying higher difficulty level. Even fastest robot at SE level might lose to a Novice trying SXX level. Yes it is meant this way. Everything is fair in love and war. 
-<br>Details of multiplier constant shall not be put here. 
+Typeinc score is a simple formula which gets a big decimal number which you obtain as-
+```
+Typeinc score = wpm * (accuracy/100) * (difficulty level multiplier factor).
+```
+The total time factor is already taken into consideration when calculating wpm. <br>
+
+The multiplier factor is highly unfair to those trying lower difficulty level. Even a robot trying SE level might lose to a Novice trying SXX level in terms of `Typeinc score` Yes it is meant this way. Everything is fair in love and war. 
+<br>
+
+**_NOTE:_** Details of multiplier constant shall not be put here. 
 
 # Text generated
-For each level of difficulty, different annomalies are added to the text. The regular SE level has plain english text while rest have some ASCII characters, capitalisation mix up, etc. For the Death texts referred to what you get for level > 10, all have increased difficulty and more anomalies introduced with more number of characters added. Thus even 1 word of SXX can fill up lines.<br>Also these are randomly set, it's upon your luck what length you get for your test. 
+For each level of difficulty, different annomalies are added to the text. The regular SE level has plain english text while rest have some ASCII characters, capitalisation mix up, etc.
+<br>For the `Death texts`, referred to what you get for level > 10, all have increased difficulty and more anomalies introduced with more number of characters added. Thus even 1 word of SXX can fill up lines.<br>Also these are randomly set, it's upon your luck what length you get for your test. 
+
+All the best bruh!
