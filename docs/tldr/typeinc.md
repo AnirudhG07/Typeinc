@@ -1,4 +1,4 @@
-# tyepinc
+# typeinc
 
 > Typing speed test Terminal UI, made in ncurses.
 > Test your abilities in various difficulty level and get your typeinc score.

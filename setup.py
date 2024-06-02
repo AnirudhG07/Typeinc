@@ -1,6 +1,7 @@
 import os
 from setuptools import setup, find_packages
 import shutil, gzip
+import platform 
 
 def install_man_page():
     source_path = os.path.join("docs", "man", "typeinc.1")
@@ -52,23 +53,22 @@ Visit the Github Repository for more details: https://github.com/AnirudhG07/Type
 2) This tools is crossplatform for MacOS, Linux, Windows, etc.
 
 """
+
+install_requires=[]
+
+if platform.system() == 'Windows':
+    install_requires.append('windows-curses')
+
 setup(
     name='typeinc',
     version='1.0.0',
-    description=description,
+    description='Typeinc, an ncurses based tool, is your goto terminal tool to play around with your typing speed with various difficulty levels.',
+    long_description=description,
+    long_description_content_type='text/markdown',
     url='https://github.com/AnirudhG07/Typeinc',
     author='Anirudh Gupta',
     packages=find_packages(),
-    install_requires=[
-        "argparse",
-        "random",
-        "curses",
-        "time",
-        "datetime",
-        "json",
-        "bisect",
-        "subprocess"
-    ],
+    install_requires=install_requires,
     python_requires='>=3.9',
     entry_points={
         'console_scripts': [
@@ -76,8 +76,20 @@ setup(
         ],
     },
     package_data={
-        'typeinc': ['configurations/*', 'score\
-                    /*'],
+        'typeinc': ['configurations/*', 'score/*'],
     },
     include_package_data=True,
+    classifiers=[
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Everyone",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Topic :: Typing Speed Test",
+        "License :: OSI Approved :: Apache-2.0 License",
+        "Operating System :: Linux",
+        "Operating System :: MacOS",
+        "Operating System :: Windows",
+    ],
 )
