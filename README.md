@@ -86,6 +86,8 @@ git clone https://github.com/AnirudhG07/Typeinc
 2. Run `setup.py` to set the tool
 ```bash
 python setup.py install #use python3 if required
+# OR if it throws an error
+pip install .
 ```
 
 Now you should be able to run the tool using `typeinc` in your terminal. Feel free to raise an issue if you face with any errors.
@@ -111,7 +113,7 @@ It would be great to have contributions from anyone. To make Typeinc more loved 
 You can always post your highest score and grade with wpm, accuracy and difficulty level chosen. I would love to make a global top list and add you there, if you are worthy!
 
 ## Note regarding Grading system ![Static Badge](https://img.shields.io/badge/Grading_Acknowldgement-purple)
-- All the grading, difficulty level, tyepinc score is devised by AnirudhG07(me). It has not been taken from anywhere
+- All the grading, difficulty level, typeinc score is devised by AnirudhG07(me). It has not been taken from anywhere
 and all the numbers set has been made from a fair system and intuition.
 - I honestly would give more score to a person trying higher difficulty level cause they won't achieve a good wpm, unlike regular level where even 140-150 is possible.
 - In no way I am also trying to equate the best possible (wpm, accuracy) of Regular Difficulty level to least possible (wpm, accuracy) of the most Difficult level.
