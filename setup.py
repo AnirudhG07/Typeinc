@@ -24,6 +24,7 @@ Get your Tyepinc score and boast to your pals of your speed. Dream to achieve a 
 - Get your grade and Tyepinc score and boast to your pals of your speed.
 - A cool UI of keyboard typing to give you a feel of both typewriters and keyboards.
 - A user-friendly interface to make your typing experience more fun and interactive.
+- View top 10 highscores(local) for each difficulty level.
 
 # Installation
 To install Typeinc, please fulfill the dependicies and run the following command:
@@ -39,6 +40,7 @@ And you are good to go!
 ## Dependencies
 - Python 3.9 or higher
 - ncurses library
+- Other python libraries which will be installed automatically
 
 Visit the Github Repository for more details: https://github.com/AnirudhG07/Typeinc
 
@@ -60,7 +62,12 @@ setup(
     install_requires=[
         "argparse",
         "random",
-        "curses"
+        "curses",
+        "time",
+        "datetime",
+        "json",
+        "bisect",
+        "subprocess"
     ],
     python_requires='>=3.9',
     entry_points={
@@ -69,7 +76,8 @@ setup(
         ],
     },
     package_data={
-        'typeinc': ['configurations/*'],
+        'typeinc': ['configurations/*', 'score\
+                    /*'],
     },
     include_package_data=True,
 )

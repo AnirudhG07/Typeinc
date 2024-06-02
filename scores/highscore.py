@@ -37,21 +37,16 @@ def store_result(name, wpm, grade, type_, difficulty, new_score):
     # Insert the new score at the correct position
     scores_list.insert(position, (result['time'], result))
 
-    # If the position is greater than 100, tell the user that their score won't be saved
-    if position > 2:
-        print(f"Oh boy! Your score is below the local top 100 for difficulty level {difficulty}.  Thus it won't be saved.")
-        print("Try again to improve your score!")
-        return
-    else:
-        # Insert the new score at the correct position
-        scores_list.insert(position, (result['time'], result))
+    # If there are more than 100 scores, remove the last one
+    if len(scores_list) > 100:
+        scores_list.pop()
 
-        # Convert the list back to a dictionary
-        scores[difficulty] = dict(scores_list)
+    # Convert the list back to a dictionary
+    scores[difficulty] = dict(scores_list)
 
-        # Write the updated scores to scores.json
-        with open('./scores/scores.json', 'w') as f:
-            json.dump(scores, f, indent=4)
+    # Write the updated scores to scores.json
+    with open('./scores/scores.json', 'w') as f:
+        json.dump(scores, f, indent=4)
 
 
 def display_highscore(stdscr, difficulty):

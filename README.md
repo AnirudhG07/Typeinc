@@ -48,6 +48,15 @@ Refer this tool to your friends, family and colleagues and compete with them!<br
 
 Please refer to <a href="https://github.com/AnirudhG07/Typeinc/blob/main/docs/standards_grading.md"> Typeinc standards & grades </a> for more information regarding the grading and typeinc score.
 
+## 4. Highscore Display ![Static Badge](https://img.shields.io/badge/RANKS!-yellow)
+Save your result with your name for each test you take. You can also see the top 10 for each respective difficulty level by running the command - (Note: difficulty level is code for each difficulty level, like 'E', 'X2', etc.)
+```bash
+typeinc -r <difficulty-level>
+```
+The topper is the one with higher `Typeinc Score`.<br>
+
+Only 100 scores are saved in database which are ordered in desceding order w.r.t Typeinc score. Any score which is lesser than least of them, will not be saved. Try to beat that score to be able to save it, but this will push out the one who went to position 101, which will be deleted.
+
 # How to Install
 This is a cross-platform tool so it can be downloaded in your MacOS, Linux, Windows, etc.<br>
 Follow the below guidelines to download the software
