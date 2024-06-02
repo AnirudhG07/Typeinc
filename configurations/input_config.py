@@ -42,14 +42,15 @@ def rule_box(stdscr):
         - 100 <= level < 500: BRUHHH!! (XX)
         - 500 <= level < 1000: DAMNN BRUHHH! (XX2)
         - 1000 <= level: GOD BRUH!!! (SXX)
-    3) Please see the docs for more information on grading system.
-    4) Don't play with arrow keys, it might mess up the test.
+    *3) The screen at one time only fills limited words, more words
+    will appear as soon as you finish typing the current screen. 
+    *4) Don't play with arrow keys, it might mess up the test.
                          Press q to Exit
 """
     # Make a box below input_box displaying rules
-    start_y = height // 2 + 5
+    start_y = height // 2 + 4
     start_x = width // 2 - 25
-    help_box = curses.newwin(22, 70, start_y-5, start_x-1 ) # height, width, y, x
+    help_box = curses.newwin(23, 71, start_y-5, start_x-1 ) # height, width, y, x
     help_box.box()
     help_box.refresh()
     stdscr.addstr(start_y-5, start_x + 30, f"RULES", curses.color_pair(5) | curses.A_BOLD)
@@ -86,7 +87,7 @@ def input_box(stdscr):
     """
 
     # Calculate the start coordinates for the box
-    start_y = height // 2 - 5
+    start_y = height // 2 - 7
     start_x = width // 2 - 20
 
     # Print the Welcome_text
@@ -95,7 +96,7 @@ def input_box(stdscr):
 
     stdscr.refresh()
     # Draw the box
-    height_inputbox=3
+    height_inputbox=4
     stdscr.addstr(start_y - 1, start_x, "+" + "-" * 45 + "+" , curses.color_pair(1) | curses.A_BOLD)
     for i in range(start_y, start_y + height_inputbox):
         stdscr.addstr(i, start_x, "|" + " " * 45 + "|", curses.color_pair(2) | curses.A_BOLD)
@@ -104,11 +105,14 @@ def input_box(stdscr):
     # HELP BOX
     rule_box(stdscr)
     # Prompt for the number of words
-    animate_text(stdscr, start_y, start_x + 2, "Enter the number of words: ", 5)
+    animate_text(stdscr, start_y, start_x + 2, "Default Number of words: 60, Difficulty : 0", 4)
+    animate_text(stdscr, start_y+1, start_x + 2, "Enter the number of words: ", 5)
+    animate_text(stdscr, start_y+1, start_x + 29, "60", 0)
+
     curses.echo()
     num_words = ""
     while True:
-        part = stdscr.getstr(start_y, start_x + 29).decode('utf-8')
+        part = stdscr.getstr(start_y+1, start_x + 29).decode('utf-8')
         if 'q' in part:
             break
         num_words += part
@@ -117,7 +121,7 @@ def input_box(stdscr):
     try:
         num_words = int(num_words)
     except:
-        num_words = 1
+        num_words = 60
     if num_words>=7500:
         num_words = 7500
 
@@ -130,14 +134,14 @@ def input_box(stdscr):
     else:
         pass
     # Prompt for the difficulty level
-    animate_text(stdscr, start_y + 1, start_x + 2, "Enter the difficulty level: ", 5)
-    animate_text(stdscr, start_y + 1, start_x + 30, "0", 3)
-    animate_text(stdscr, start_y + 2, start_x + 2, "Default Difficulty : 0, Enter to continue", 4)
-    stdscr.move(start_y + 1, start_x + 30)
+    animate_text(stdscr, start_y + 2, start_x + 2, "Enter the difficulty level: ", 5)
+    animate_text(stdscr, start_y + 2, start_x + 30, "0", 3)
+    animate_text(stdscr, start_y + 3, start_x + 13, "Enter to continue", 1)
+    stdscr.move(start_y + 2, start_x + 30)
     stdscr.refresh()
     difficulty = ""
     while True:
-        part = stdscr.getstr(start_y+1, start_x + 30).decode('utf-8')
+        part = stdscr.getstr(start_y+2, start_x + 30).decode('utf-8')
         if 'q' in part:
             break
         difficulty += part

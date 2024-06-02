@@ -37,10 +37,11 @@ def setup_window(stdscr):
     options.addstr(4, 1, "> Press Ctrl R to restart", curses.color_pair(5))
     options.addstr(5, 1, "> Press Backspace to delete", curses.color_pair(5))
     options.addstr(6, 1, "> Don't mess with arrow keys", curses.color_pair(5))
-    options.addstr(7, 1, " ", curses.color_pair(5))
-    options.addstr(8, 10, "TIMER", curses.color_pair(4) | curses.A_BOLD)
-    options.addstr(9, 1, "="*30, curses.color_pair(1))
-    options.addstr(10, 7, f" {0:.2f} second", curses.color_pair(5))
+    options.addstr(7, 1, "'. . .' mean To be Continued", curses.color_pair(5))
+    options.addstr(8, 1, "                     ", curses.color_pair(5))
+    options.addstr(9, 10, "TIMER", curses.color_pair(4) | curses.A_BOLD)
+    options.addstr(10, 1, "="*30, curses.color_pair(1))
+    options.addstr(11, 7, f" {0:.2f} second", curses.color_pair(5))
     # Create a new thread for the ticking clock
     
     options.box()
