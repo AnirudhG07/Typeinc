@@ -43,10 +43,13 @@ def store_result(name, wpm, grade, type_, difficulty, new_score):
 
     # Convert the list back to a dictionary
     scores[difficulty] = dict(scores_list)
-
-    # Write the updated scores to scores.json
-    with open('./scores/scores.json', 'w') as f:
-        json.dump(scores, f, indent=4)
+    try:
+        # Write the updated scores to scores.json
+        with open('./scores/scores.json', 'w') as f:
+            json.dump(scores, f, indent=4)
+        return True
+    except:    
+        return False
 
 
 def display_highscore(stdscr, difficulty):

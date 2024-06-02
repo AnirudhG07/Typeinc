@@ -36,9 +36,13 @@ def main(stdscr):
         to_save = input("Do you want to save the result? (y/n): ")
         if to_save.lower() == 'y' or to_save.lower() == 'yes':
             name = input("Enter your name: ")
-            store_result(name, wpm, grade, type_, difficulty, score) # difficulty is string
-            print("Your score is saved. To see the top 10 scores, run `typeinc -r <difficulty level>`")
-            print("Thank you for playing!")
+            store_complete = store_result(name, wpm, grade, type_, difficulty, score) # difficulty is string
+            if store_complete:
+                print("Your score is saved. To see the top 10 scores, run `typeinc -r <difficulty level>`")
+                print("Thank you for playing!")
+            else:
+                print("Some error occured while saving the score. Please try again.")
+                print("Thank you for playing!")   
             break
         elif to_save.lower() == 'n' or to_save.lower() == 'no':
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
