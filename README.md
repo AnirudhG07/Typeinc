@@ -1,4 +1,4 @@
-# Typeinc ![Static Badge](https://img.shields.io/badge/version-1.0.0-red) ![Static Badge](https://img.shields.io/badge/Typing_Test-CHECK_IT-blue)
+<img width="940" alt="higher_diff_txt-img" src="https://github.com/AnirudhG07/Typeinc/assets/146579014/6b1cdc2f-a2fb-489d-a441-51f7e340027e"># Typeinc ![Static Badge](https://img.shields.io/badge/version-1.0.0-red) ![Static Badge](https://img.shields.io/badge/Typing_Test-CHECK_IT-blue)
 
 Typeinc (pronounced `type-in-c`), a python & _ncurses_ based tool, is your goto terminal tool to play around with your typing speed with various difficulty levels.
 You get an amazing UI for typing keyboard giving you a feel of both typewriters and keyboards. Both humans and robots can get their typing speed, don't worry robots won't break the limits set here.
@@ -45,7 +45,12 @@ Here is a detailed summary of the Difficulty level division.
 - 1000 <= Level: GOD BRUH!!! (SXX)
 ```
 
-All the difficulties levels are set by me, including the names. This test is a total 'BRUHHH'!
+All the difficulties levels are set by me, including the names. This test is a total 'BRUHHH'!<br>
+For example-
+<br>
+<img width="940" alt="higher_diff_txt-img" src="https://github.com/AnirudhG07/Typeinc/assets/146579014/72be858b-554a-44ce-830f-f12931233850">
+
+This is an example of 50 word test-text at difficulty level = 20. (It may differ for you).
 
 **Note:** If you want to have the regular typing test, please enter without mentioning any difficulty level since Default Difficulty is set to 0.
 
