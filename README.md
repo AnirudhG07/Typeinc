@@ -105,7 +105,7 @@ typeinc -h # to see help message
 This tool can also be installed using Homebrew(for MacOS only). You can install it by tapping my homebrew-tap repo and installing the tool.
 
 ```bash
-brew tap AnirudhG07/homebrew-AnirudhG07
+brew tap AnirudhG07/AnirudhG07
 brew install typeinc
 ```
 
