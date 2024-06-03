@@ -10,7 +10,8 @@ You get an amazing UI for typing keyboard giving you a feel of both typewriters 
 Typeinc has nothing to with C, although pronounced so. It's like `type-i-nc` meaning type-type, I-user(you), nc-ncurses, OR maybe `type-inc` (Typing Incorporation), honestly I donno. Make out whatever you want _bruh!_
 
 # Previews/Screenshots
-TO BE ADDED
+
+https://github.com/AnirudhG07/Typeinc/assets/146579014/f7684d4e-1844-4f6a-ad66-3549dfd2043f
 
 # Features
 Tyepinc provide some a next level typing test experience sitting on your terminal.
