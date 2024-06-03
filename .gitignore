@@ -1,0 +1,3 @@
+build/lib/typeinc
+dist
+typeinc.egg-info
