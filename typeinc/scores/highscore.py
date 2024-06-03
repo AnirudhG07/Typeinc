@@ -1,8 +1,8 @@
 import json
 import datetime
-import os, curses
+import curses
 import bisect
-
+import pkg_resources
 def store_result(name, wpm, grade, type_, difficulty, new_score):
     time_exact = datetime.datetime.now().isoformat()
 
@@ -16,11 +16,8 @@ def store_result(name, wpm, grade, type_, difficulty, new_score):
     }
 
     # Load the existing scores
-    if os.path.exists('./scores/scores.json'):
-        with open('./scores/scores.json', 'r') as f:
-            scores = json.load(f)
-    else:
-        scores = {}
+    with open(pkg_resources.resource_filename(__name__, 'scores.json'), 'r') as f:
+        scores = json.load(f)
 
     # Add the new score to the appropriate difficulty level
     difficulty = difficulty.split()[0]
@@ -28,7 +25,7 @@ def store_result(name, wpm, grade, type_, difficulty, new_score):
         scores[difficulty] = []
 
     # Find the correct position to insert the new score
-    scores_list = [(k, v) for k, v in scores[difficulty].items()]
+    scores_list = [(k, scores[difficulty][k]) for k in scores[difficulty]]
 
     # Find the correct position to insert the new score
     scores_list.sort(key=lambda x: x[1]['typeinc score'], reverse=True)
@@ -45,7 +42,7 @@ def store_result(name, wpm, grade, type_, difficulty, new_score):
     scores[difficulty] = dict(scores_list)
     try:
         # Write the updated scores to scores.json
-        with open('./scores/scores.json', 'w') as f:
+        with open(pkg_resources.resource_filename(__name__, 'scores.json'), 'w') as f:
             json.dump(scores, f, indent=4)
         return True
     except:    
@@ -73,12 +70,9 @@ def display_highscore(stdscr, difficulty):
 """
     """"Display the highscores for the given difficulty level"""
     # Load the existing scores
-    if os.path.exists('./scores/scores.json'):
-        with open('./scores/scores.json', 'r') as f:
-            scores = json.load(f)
-    else:
-        print("No scores to display.")
-        return
+    with open(pkg_resources.resource_filename(__name__, 'scores.json'), 'r') as f:
+        scores = json.load(f)
+
     start_x = len ("Difficulty Level: ") +10
 
     for i, line in enumerate(banner.split('\n')):
@@ -100,6 +94,7 @@ def display_highscore(stdscr, difficulty):
     wpm_length = max(len(str(result['wpm'])) for result in scores[difficulty].values())
     grade_length = max(len(str(result['grade'])) for result in scores[difficulty].values())
     score_length = max(len(str(result['typeinc score'])) for result in scores[difficulty].values())
+    score_length = max(score_length, len("Score"))
     serial_length = 4
 
     stdscr.addstr(12, start_x, "{}Top 10 Highscore for Typeinc Test(local)\n".format(' '*(start_x-15)), curses.color_pair(6) | curses.A_BOLD)
@@ -111,15 +106,16 @@ def display_highscore(stdscr, difficulty):
     i=18
     top10=0
     try:
-        for index, (time, result) in enumerate(scores[difficulty].items(), start=1):
+        for index, time in enumerate(scores[difficulty], start=1):
+            result = scores[difficulty][time]
             if top10 >= 10:
                 break
             stdscr.addstr(i, start_x-3, f" | {index:<{serial_length}} | {result['name']:<{name_length}} | {result['wpm']:<{wpm_length}} | {' '.join(result['grade']):<{grade_length}} | {result['typeinc score']:<{score_length}} |\n", curses.color_pair(1) | curses.A_BOLD)
             stdscr.addstr(i+1, start_x-3," +{}+{}+{}+{}+{}+\n".format('-'*(serial_length+2), '-'*(name_length+2), '-'*(wpm_length+2), '-'*(grade_length+2), '-'*(score_length+2)), curses.color_pair(5) | curses.A_BOLD)
             i+=2
             top10+=1
-    except:
-        stdscr.addstr("Some error occured while displaying the highscores. Please make sure you are in full screen.")
+    except Exception as e:
+        stdscr.addstr(19,5,f"Some error occurred while displaying the highscores. Please make sure you are in full screen. Error: {e}")
 
     stdscr.addstr(height -4 , start_x+5,"\n{}Press any key to exit.".format(' '*(start_x+20)), curses.color_pair(2) | curses.A_BOLD)
     

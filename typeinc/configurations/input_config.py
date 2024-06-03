@@ -20,15 +20,19 @@ def rule_box(stdscr):
     if curses.can_change_color() and curses.COLORS >= 256:
         # Initialize a color pair with a color number that corresponds to orange
         curses.init_pair(6, 208, curses.COLOR_BLACK)
+    if curses.can_change_color() and curses.COLORS >= 256:
+        # initialise MUSTARD COLOR
+        curses.init_pair(7, 214, curses.COLOR_BLACK)
         
     # Get the size of the terminal
     height, width = stdscr.getmaxyx()
 
     rule_text= """
-    The Typinc Test is not just a typing test. You will be graded
+    The Typinc Test is not just a typing test! You will be graded
     on the following rules which you must follow:
     1) Number of words filled in should be between 1 and 1000.
-    2) Difficulty level can be any number. Absolutely any!
+    2) Press Enter without typing anything to set default value.
+    3)* Difficulty level can be any number. Absolutely any!
     Difficulty level is of the following formats:
         - level <= 0 : Super Easy (Regular) (SE)
         - 0 < level <= 2 : Easy (E)
@@ -38,29 +42,29 @@ def rule_box(stdscr):
         - 9 < level <= 10 : Insane (I)
         - 10 < level < 20 : Super Insane (SI)
         - 20 <= level < 50: BRUH (X)
-        - 50 <= level < 100: BRUHH (X2)
-        - 100 <= level < 500: BRUHHH!! (XX)
-        - 500 <= level < 1000: DAMNN BRUHHH! (XX2)
+        - 50 <= level < 100: SUPER BRUHH (X2)
+        - 100 <= level < 500: DAMNN BRUHHH!! (XX)
+        - 500 <= level < 1000: U ROCK BRUHHH! (XX2)
         - 1000 <= level: GOD BRUH!!! (SXX)
-    *3) The screen at one time only fills limited words, more words
+    4) The screen at one time only fills limited words, more words
     will appear as soon as you finish typing the current screen. 
-    *4) Don't play with arrow keys, it might mess up the test.
-                         Press q to Exit
+    5)* Don't play with arrow keys, it might mess up the test.
+                    Press q and Enter to Exit
 """
     # Make a box below input_box displaying rules
-    start_y = height // 2 + 4
-    start_x = width // 2 - 25
-    help_box = curses.newwin(23, 71, start_y-5, start_x-1 ) # height, width, y, x
+    start_y = height // 2 + 2
+    start_x = width // 2 - 27
+    help_box = curses.newwin(24, 71, start_y-5, start_x-1 ) # height, width, y, x
     help_box.box()
     help_box.refresh()
     stdscr.addstr(start_y-5, start_x + 30, f"RULES", curses.color_pair(5) | curses.A_BOLD)
     for i, line in enumerate(rule_text.split('\n')):
-        if '-' in line: 
+        if '-' in line or 'Exit' in line: 
             stdscr.addstr( start_y-5 + i, start_x, line, curses.color_pair(2) )
-        elif 'Press Enter to Exit' not in line:
-            stdscr.addstr( start_y-5 + i, start_x, line, curses.color_pair(6) )
+        elif ')' in line or '.' in line:
+            stdscr.addstr( start_y-5 + i, start_x, line, curses.color_pair(7) | curses.A_BOLD)
         else:
-            stdscr.addstr( start_y-5 + i, start_x, line, curses.color_pair(5) | curses.A_BOLD)
+            stdscr.addstr( start_y-5 + i, start_x, line, curses.color_pair(6) | curses.A_BOLD)
     stdscr.refresh()
     return
 
@@ -87,7 +91,7 @@ def input_box(stdscr):
     """
 
     # Calculate the start coordinates for the box
-    start_y = height // 2 - 7
+    start_y = height // 2 - 9
     start_x = width // 2 - 20
 
     # Print the Welcome_text
@@ -107,14 +111,13 @@ def input_box(stdscr):
     # Prompt for the number of words
     animate_text(stdscr, start_y, start_x + 2, "Default Number of words: 60, Difficulty : 0", 4)
     animate_text(stdscr, start_y+1, start_x + 2, "Enter the number of words: ", 5)
-    animate_text(stdscr, start_y+1, start_x + 29, "60", 0)
 
     curses.echo()
     num_words = ""
     while True:
         part = stdscr.getstr(start_y+1, start_x + 29).decode('utf-8')
         if 'q' in part:
-            break
+            exit(0)
         num_words += part
         if len(part) < 36:
             break
@@ -136,14 +139,14 @@ def input_box(stdscr):
     # Prompt for the difficulty level
     animate_text(stdscr, start_y + 2, start_x + 2, "Enter the difficulty level: ", 5)
     animate_text(stdscr, start_y + 2, start_x + 30, "0", 3)
-    animate_text(stdscr, start_y + 3, start_x + 13, "Enter to continue", 1)
+    animate_text(stdscr, start_y + 3, start_x + 13, "Enter to continue", 2)
     stdscr.move(start_y + 2, start_x + 30)
     stdscr.refresh()
     difficulty = ""
     while True:
         part = stdscr.getstr(start_y+2, start_x + 30).decode('utf-8')
         if 'q' in part:
-            break
+            exit(0)
         difficulty += part
         if len(part) < 36:
             break

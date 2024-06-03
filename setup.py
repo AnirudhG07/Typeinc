@@ -69,21 +69,20 @@ setup(
     author='Anirudh Gupta',
     packages=find_packages(),
     install_requires=install_requires,
-    python_requires='>=3.9',
+    keywords=['terminal', 'typing speed test', 'typing', 'CLI'],
+    python_requires='>=3.11',
     entry_points={
         'console_scripts': [
-            'typeinc=main:main',
+            'typeinc=typeinc.main:main',
         ],
     },
     package_data={
-        'typeinc': ['configurations/*', 'score/*'],
+        'typeinc': ['configurations/*', 'scores/*', 'wordlist.txt'],
     },
     include_package_data=True,
-    classifiers=[
+    classifiers=[   
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Everyone",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Topic :: Typing Speed Test",
