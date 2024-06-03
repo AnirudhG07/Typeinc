@@ -82,13 +82,13 @@ setup(
     include_package_data=True,
     classifiers=[   
         "Development Status :: 5 - Production/Stable",
-        "Intended Audience :: Everyone",
+        "Intended Audience :: Developers",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
-        "Topic :: Typing Speed Test",
-        "License :: OSI Approved :: Apache-2.0 License",
-        "Operating System :: Linux",
+        "Topic :: Games/Entertainment",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: POSIX",
         "Operating System :: MacOS",
-        "Operating System :: Windows",
+        "Operating System :: Microsoft :: Windows"
     ],
 )
