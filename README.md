@@ -1,4 +1,4 @@
-<img width="940" alt="higher_diff_txt-img" src="https://github.com/AnirudhG07/Typeinc/assets/146579014/6b1cdc2f-a2fb-489d-a441-51f7e340027e"># Typeinc ![Static Badge](https://img.shields.io/badge/version-1.0.0-red) ![Static Badge](https://img.shields.io/badge/Typing_Test-CHECK_IT-blue)
+# Typeinc ![Static Badge](https://img.shields.io/badge/version-1.0.0-red) ![Static Badge](https://img.shields.io/badge/Typing_Test-CHECK_IT-blue)
 
 Typeinc (pronounced `type-in-c`), a python & _ncurses_ based tool, is your goto terminal tool to play around with your typing speed with various difficulty levels.
 You get an amazing UI for typing keyboard giving you a feel of both typewriters and keyboards. Both humans and robots can get their typing speed, don't worry robots won't break the limits set here.
