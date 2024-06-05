@@ -138,12 +138,27 @@ pip install .
 
 Now you should be able to run the tool using `typeinc` in your terminal. Feel free to raise an issue if you face with any errors.
 
+# Typeinc-mini
+This is made for those who do not have a big enough screen and see the message - <br>
+`...If still the issue persists, too bad.`<br>
+Typeinc-mini, is a miniature version of Typeinc. Same features but less UI (you don't get the Typeinc-keyboard :<). 
+
+Check it out at: https://github.com/AnirudhG07/Typeinc-mini
+
+We provide 2 solutions for screen-issues-
+1. Try Typeinc-mini
+2. Try decreasing font size/increasing number of lines in terminal or similar
+3. Get a bigger screen bruh... (not much of a solution)
+
+I hope you can enjoy Typeinc as much as you can irrespective of your screen size!
+
 # Dependencies
 
 This tool doesn't require a lot of dependencies but you need some basic requirements like
 
-- python version >= 3.9
+- python version >= 3.11
 - curses library of python (Note: It will be automatically installed if you use the Pip Installation process)
+- For Windows, windows-curses and setuptools are needed.
 
 If you have any doubts/facing any issue, feel free to raise an issue.
 

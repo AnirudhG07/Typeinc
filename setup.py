@@ -39,7 +39,7 @@ typeinc
 And you are good to go!
 
 ## Dependencies
-- Python 3.9 or higher
+- Python 3.11 or higher
 - ncurses library
 - Other python libraries which will be installed automatically
 
@@ -58,6 +58,7 @@ install_requires=[]
 
 if platform.system() == 'Windows':
     install_requires.append('windows-curses')
+install_requires.extend(['setuptools'])
 
 setup(
     name='typeinc',
