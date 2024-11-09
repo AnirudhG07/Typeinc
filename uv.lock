@@ -16,22 +16,7 @@ version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "setuptools" },
-    { name = "windows-curses" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "setuptools", specifier = ">=75.3.0" },
-    { name = "windows-curses", specifier = ">=2.4.0" },
-]
-
-[[package]]
-name = "windows-curses"
-version = "2.4.0"
-source = { registry = "https://pypi.org/simple" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/76/91/a24739ea1bd53ec0b4e05ba5c0c8f786715dfff1d6ce95bc8867f9677292/windows_curses-2.4.0-cp311-cp311-win32.whl", hash = "sha256:90fde3341b2361f45716cfbe44bd253ac6a07dfde7262f3afdcf7cc0285c35ac", size = 71133 },
-    { url = "https://files.pythonhosted.org/packages/ea/7f/e680c41be83302a40b2c9b45759e6105cf0e3afc5a0b67f8eb926ee478cc/windows_curses-2.4.0-cp311-cp311-win_amd64.whl", hash = "sha256:0c32be4aa97887febff175a8a6b3deeecc06c1a3f47ecbb5f62de6bf4165d6db", size = 81457 },
-    { url = "https://files.pythonhosted.org/packages/86/66/0a83825bd45f5cbd8dbeb7f96497e1162b355cbabd956b4960efceb04dc2/windows_curses-2.4.0-cp312-cp312-win32.whl", hash = "sha256:e165db84de30039f6da6bded9aa2f88e3c1ae7be11dc7c84416cbe6ba0ac4f29", size = 71403 },
-    { url = "https://files.pythonhosted.org/packages/07/fc/5faaef1ec5921953cc7c87ff60a5af751769cb996caab828ceb21f13ee95/windows_curses-2.4.0-cp312-cp312-win_amd64.whl", hash = "sha256:f50d02833a7e7866b9f42d62febbdf83c6703575240e9bbdd1446d09d70505d3", size = 81752 },
-]
+requires-dist = [{ name = "setuptools", specifier = ">=75.3.0" }]

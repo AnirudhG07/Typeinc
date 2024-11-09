@@ -1,8 +1,9 @@
-import time
 import curses
+import time
 
 from .keyboard import keyboard
 from .ui import setup_window
+
 
 def restart(win, words, box_width, box_height):
     cursor_y, cursor_x = 1, 1
@@ -14,6 +15,8 @@ def restart(win, words, box_width, box_height):
             win.addch(cursor_y, cursor_x+1, char, curses.color_pair(3))  # Print the character in white
             cursor_x += 1
         cursor_x += 1  # Add a space after each word
+        # have ' ' in position of space
+        win.addch(cursor_y, cursor_x, ' ', curses.color_pair(0))
     cursor_x, cursor_y = 2, 1
     start_time = time.time()
     # Reset the cursor position

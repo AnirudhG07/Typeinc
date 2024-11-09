@@ -1,14 +1,14 @@
-import curses
 import argparse
+import curses
 import subprocess
 
-from .configurations.text_gen import text_gen
-from .configurations.result import *
-from .configurations.ui import setup_window
 from .configurations.input_config import *
 from .configurations.mainscreen import typer
+from .configurations.result import *
+from .configurations.text_gen import text_gen
+from .configurations.ui import setup_window
+from .scores.highscore import display_highscore, store_result
 
-from .scores.highscore import store_result, display_highscore
 
 def getsetgo(stdscr):
     numwords, alphanumeric = input_box(stdscr)
@@ -37,23 +37,23 @@ def getsetgo(stdscr):
             name = input("Enter your name: ")
             store_complete = store_result(name, wpm, grade, type_, difficulty, score) # difficulty is string
             if store_complete:
-                print("Your score is saved. To see the top 10 scores, run `typeinc -r <difficulty level>`")
-                print("Thank you for playing!")
+                print("Your score is saved. To see the top 10 scores, run `typeinc -r <difficulty level>`", flush = True)
+                print("Thank you for playing!", flush = True)
             else:
-                print("Some error occured while saving the score. Please try again.")
-                print("Thank you for playing!")   
+                print("Some error occured while saving the score. Please try again.", flush = True)
+                print("Thank you for playing!", flush = True)   
             break
         elif to_save.lower() == 'n' or to_save.lower() == 'no':
-            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print("What quit already? Come on give it another shot. Beat the records bruh...")
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", flush = True)
+            print("What quit already? Come on give it another shot. Beat the records bruh...", flush = True)
             retry = input("Do you want to retry? (y/n): ")
             if retry.lower() == 'y' or retry.lower() == 'yes':
                 subprocess.run(["typeinc"]) # Hack to restart the program, it was not working with curses.wrapper(main)
             else:
-                print("Thank you for playing! Hope you had a good time.")
+                print("Thank you for playing! Hope you had a good time.", flush = True)
             break
         else:
-            print("Invalid input. Please re enter with (y/n)")
+            print("Invalid input. Please re enter with (y/n)", flush = True)
 
 def main():
         parser = argparse.ArgumentParser(description="""Typing Speed Test- Typeinc. A cool ncurses based typing test.
