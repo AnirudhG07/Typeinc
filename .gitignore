@@ -1,3 +1,6 @@
 build/lib/typeinc
 dist
 typeinc.egg-info
+src/typeinc/__pycache__
+src/typeinc/configurations/__pycache__
+src/typeinc/scores/__pycache__

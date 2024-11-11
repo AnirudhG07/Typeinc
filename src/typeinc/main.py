@@ -2,9 +2,9 @@ import argparse
 import curses
 import subprocess
 
-from .configurations.input_config import *
+from .configurations.input_config import input_box
 from .configurations.mainscreen import typer
-from .configurations.result import *
+from .configurations.result import result, score
 from .configurations.text_gen import text_gen
 from .configurations.ui import setup_window
 from .scores.highscore import display_highscore, store_result
@@ -22,7 +22,9 @@ def getsetgo(stdscr):
     max_chars = (box_width-2) * (box_height-3)
     total_screens = total_chars//max_chars + 1
     tbc = '. . .' if total_screens > 1 else ''
-    total_time = 0.00
+    total_time, time_taken = 0.00, 0.00
+    errors_pos = []
+
     for i in range(total_screens):
         test_text_formatted = test_text[i*max_chars:(i+1)*max_chars]
         # Mainscreen typing test window
@@ -30,7 +32,12 @@ def getsetgo(stdscr):
         total_time += time_taken
 
     wpm, grade, type_, difficulty, score=result(win, alphanumeric, total_words, total_chars, time_taken, errors_pos, test_text)
+    return wpm, grade, type_, difficulty, score
+
+def outro(stdscr):
+    wpm, grade, type_, difficulty, score = getsetgo(stdscr)
     curses.endwin()
+
     while True: 
         to_save = input("Do you want to save the result? (y/n): ")
         if to_save.lower() == 'y' or to_save.lower() == 'yes':
@@ -43,6 +50,7 @@ def getsetgo(stdscr):
                 print("Some error occured while saving the score. Please try again.", flush = True)
                 print("Thank you for playing!", flush = True)   
             break
+
         elif to_save.lower() == 'n' or to_save.lower() == 'no':
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", flush = True)
             print("What quit already? Come on give it another shot. Beat the records bruh...", flush = True)
@@ -116,13 +124,20 @@ Note: Please run the program on full screen mode since the UI is designed for fu
     
         else:
             try:
-                curses.wrapper(getsetgo)
+                curses.wrapper(outro)
             # error handling
+            except KeyboardInterrupt:
+                print("Exiting typeinc... Keyboard Interrupt")
             except Exception as e:
-                print(f"An error occurred: {e}")
                 if "addwstr() returned ERR" in str(e):
                     print("Please run the program on full screen mode else you will keep getting this error.")
                     print("If still this issue persists, too bad. Try running on some other computer. For most computer sizes, it should work fine.")
+                # BUG: endwin() returned ERR, for linux is coming. No idea how to. Ignoring any output for it.
+                if "endwin() returned ERR" in str(e):
+                    pass
+                else: 
+                    print("An error occured: ", e)
+                    
                 print("Exiting typeinc...")
-            except KeyboardInterrupt:
-                print("Exiting typeinc... Keyboard Interrupt")
+                    
+
