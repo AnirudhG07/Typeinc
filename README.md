@@ -1,6 +1,6 @@
 # Typeinc ![Static Badge](https://img.shields.io/badge/version-1.0.0-red) ![Static Badge](https://img.shields.io/badge/Typing_Test-CHECK_IT-blue)
 
-Typeinc (pronounced `type-in-c`), a python & _ncurses_ based tool, is your goto terminal tool to play around with your typing speed with various difficulty levels.
+Typeinc (pronounced `type-inc`), a python & _ncurses_ based tool, is your goto terminal tool to play around with your typing speed with various difficulty levels.
 You get an amazing UI for typing keyboard giving you a feel of both typewriters and keyboards. Both humans and robots can get their typing speed, don't worry robots won't break the limits set here.
 <br>
 
@@ -77,7 +77,7 @@ Only 100 scores are saved in database which are ordered in desceding order w.r.t
 # How to Install
 
 This is a cross-platform tool so it can be downloaded in your MacOS, Linux, Windows, etc.<br>
-Follow the below guidelines to download the software
+Follow the below guidelines to download the software.
 
 ## ~> PIP Installation
 
@@ -85,12 +85,6 @@ Follow the below guidelines to download the software
 
 ```bash
 pip install typeinc
-```
-
-If it gives any permission error, you can run using `sudo`(for Unix).
-
-```bash
-sudo pip install typeinc
 ```
 
 2. Now you are good to go! Play by simply running typeinc by-
@@ -105,47 +99,40 @@ typeinc -h # to see help message
 This tool can also be installed using Homebrew(for MacOS only). You can install it by tapping my homebrew-tap repo and installing the tool.
 
 ```bash
-brew tap AnirudhG07/AnirudhG07
+brew tap anirudhg07/anirudhg07
 brew install typeinc
 ```
 
 You can now run the tool by running `typeinc -h` in your terminal. If you are facing issues, try running-
 
 ```bash
-brew install AnirudhG07/AnirudhG07/typeinc # After tapping the repo
+brew install anirudhg07/anirudhg07/typeinc # After tapping the repo
 ```
 
 Make sure you have Homebrew installed in your MacOS and it is updated which can be done by running `brew update`.
 
 ## ~> Manual Installation
 
-To install this tool manually, you can `git clone` this repository in your directory and run it, with the below command guidelines-
-
-1. Clone the repository in your directory
+To install this tool manually, you can `git clone` this repository in your directory and install i.e. run the below commands-
 
 ```bash
-cd /path/to/your/directory/
-git clone https://github.com/AnirudhG07/Typeinc
-```
-
-2. Run `setup.py` to set the tool
-
-```bash
-python setup.py install #use python3 if required
-# OR if it throws an error
+git clone https://github.com/AnirudhG07/Typeinc.git
+cd Typeinc
 pip install .
 ```
 
 Now you should be able to run the tool using `typeinc` in your terminal. Feel free to raise an issue if you face with any errors.
 
 # Typeinc-mini
+
 This is made for those who do not have a big enough screen and see the message - <br>
 `...If still the issue persists, too bad.`<br>
-Typeinc-mini, is a miniature version of Typeinc. Same features but less UI (you don't get the Typeinc-keyboard :<). 
+Typeinc-mini, is a miniature version of Typeinc. Same features but less UI (you don't get the Typeinc-keyboard :<).
 
 Check it out at: https://github.com/AnirudhG07/Typeinc-mini
 
 We provide 2 solutions for screen-issues-
+
 1. Try Typeinc-mini
 2. Try decreasing font size/increasing number of lines in terminal or similar
 3. Get a bigger screen bruh... (not much of a solution)
@@ -166,9 +153,11 @@ If you have any doubts/facing any issue, feel free to raise an issue.
 
 Check out the <a href ="https://github.com/AnirudhG07/Typeinc/tree/main/docs"> docs </a> in the repository for information regarding how to use, grading system, general queries, etc. Check out the help message in your terminal to check out the usage too ny running `typeinc -h`.
 
-## Tldr 
+## Tldr
+
 Thanks to maintainers at `tldr/tldr-pages`, we have English and Spanish tldr for typeinc (View PR #1).
 <br>
+
 ```bash
 $ tldr typeinc
 ```
