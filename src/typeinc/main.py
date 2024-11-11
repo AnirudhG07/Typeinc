@@ -9,6 +9,8 @@ from .configurations.text_gen import text_gen
 from .configurations.ui import setup_window
 from .scores.highscore import display_highscore, store_result
 
+__version__ = "1.0.1"
+
 
 def getsetgo(stdscr):
     numwords, alphanumeric = input_box(stdscr)
@@ -72,7 +74,7 @@ Note: Please run the program on full screen mode since the UI is designed for fu
     ~ BE THE FASTEST TYPAA YOU COULD EVER BE ~""",
                                         formatter_class=argparse.RawTextHelpFormatter)
         # Add the flags
-        parser.add_argument('-v', '--version', action='version', version='Typeinc - version 1.0.0', help = "Show the version of the program.")
+        parser.add_argument('-v', '--version', action='version', version=f'Typeinc - version {__version__}', help = "Show the version of the program.")
 
         parser.add_argument('-s', '--score', default=None, action='store_true', help='Calculate hypothetical score for input figures.')
         parser.add_argument('-w', '--words', type=int, help='Get random English words from our wordlist. Max 7500')
