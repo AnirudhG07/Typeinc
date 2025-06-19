@@ -1,6 +1,6 @@
 import random
 import string
-import pkg_resources
+from importlib.resources import files
 def death_text(n:int, a:int)->str:
     """
     Absolute RANDOM text with n words.
@@ -25,7 +25,7 @@ def death_text(n:int, a:int)->str:
         words.append(word)
     text = " ".join(words)
     return text
-        
+
 
 def text_gen(n:int, alphanumeric:int)->str:
     """
@@ -34,7 +34,7 @@ def text_gen(n:int, alphanumeric:int)->str:
     1) Word limit : -n <number of words>
     2) It has non alphabets like numbers, special characters, etc. : -a <difficulty level>
     """
-    with open(pkg_resources.resource_filename(__name__, '../wordlist.txt'), 'r') as f:
+    with open(files(__package__).joinpath('../wordlist.txt'), 'r') as f:
         dictionary = f.readlines()
     # import random n words from the dictionary
     words = random.sample(dictionary, n) # type is list
@@ -45,7 +45,7 @@ def text_gen(n:int, alphanumeric:int)->str:
     elif alphanumeric > 10:
         return death_text(n,alphanumeric)
     else:
-        alphanumeric = int(alphanumeric) 
+        alphanumeric = int(alphanumeric)
 
     if alphanumeric==0:
             text = " ".join(words)
@@ -90,6 +90,6 @@ def text_gen(n:int, alphanumeric:int)->str:
                 for char in additional_chars:
                     position = random.randint(0, len(words[i]))
                     words[i] = words[i][:position] + char + words[i][position:]
-                
+
         text = " ".join(words)
         return text
