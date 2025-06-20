@@ -2,7 +2,7 @@ import json
 import datetime
 import curses
 import bisect
-import pkg_resources
+from importlib.resources import files
 def store_result(name, wpm, grade, type_, difficulty, new_score):
     time_exact = datetime.datetime.now().isoformat()
 
@@ -16,7 +16,7 @@ def store_result(name, wpm, grade, type_, difficulty, new_score):
     }
 
     # Load the existing scores
-    with open(pkg_resources.resource_filename(__name__, 'scores.json'), 'r') as f:
+    with open(files(__package__).joinpath('scores.json'), 'r') as f:
         scores = json.load(f)
 
     # Add the new score to the appropriate difficulty level
@@ -42,10 +42,10 @@ def store_result(name, wpm, grade, type_, difficulty, new_score):
     scores[difficulty] = dict(scores_list)
     try:
         # Write the updated scores to scores.json
-        with open(pkg_resources.resource_filename(__name__, 'scores.json'), 'w') as f:
+        with open(files(__package__).joinpath('scores.json'), 'w') as f:
             json.dump(scores, f, indent=4)
         return True
-    except:    
+    except:
         return False
 
 
@@ -56,21 +56,21 @@ def display_highscore(stdscr, difficulty):
     curses.init_pair(5, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     if curses.can_change_color() and curses.COLORS >= 256:
         # Initialize a color pair with a color number that corresponds to orange
-        curses.init_pair(6, 208, curses.COLOR_BLACK)    
+        curses.init_pair(6, 208, curses.COLOR_BLACK)
     banner = """
 ██╗  ██╗██╗ ██████╗ ██╗  ██╗ ██████╗ █████╗  █████╗ ██████╗ ███████╗
 ██║  ██║██║██╔════╝ ██║  ██║██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔════╝
-███████║██║██║  ██╗ ███████║╚█████╗ ██║  ╚═╝██║  ██║██████╔╝█████╗ 
-██╔══██║██║██║  ╚██╗██╔══██║ ╚═══██╗██║  ██╗██║  ██║██╔══██╗██╔══╝  
+███████║██║██║  ██╗ ███████║╚█████╗ ██║  ╚═╝██║  ██║██████╔╝█████╗
+██╔══██║██║██║  ╚██╗██╔══██║ ╚═══██╗██║  ██╗██║  ██║██╔══██╗██╔══╝
 ██║  ██║██║╚██████╔╝██║  ██║██████╔╝╚█████╔╝╚█████╔╝██║  ██║███████╗
 ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝  ╚════╝  ╚════╝ ╚═╝  ╚═╝╚══════╝
 ====================================================================
-                 ~ Let's see how you roll BRUH!!! ~                 
+                 ~ Let's see how you roll BRUH!!! ~
 ====================================================================
 """
     """"Display the highscores for the given difficulty level"""
     # Load the existing scores
-    with open(pkg_resources.resource_filename(__name__, 'scores.json'), 'r') as f:
+    with open(files(__package__).joinpath('scores.json'), 'r') as f:
         scores = json.load(f)
 
     start_x = len ("Difficulty Level: ") +10
@@ -88,7 +88,7 @@ def display_highscore(stdscr, difficulty):
         stdscr.refresh()
         if stdscr.getch():
             return
-        
+
     name_length = max(len(result['name']) for result in scores[difficulty].values())
     name_length = max(name_length, len("Name"))
     wpm_length = max(len(str(result['wpm'])) for result in scores[difficulty].values())
@@ -118,7 +118,7 @@ def display_highscore(stdscr, difficulty):
         stdscr.addstr(19,5,f"Some error occurred while displaying the highscores. Please make sure you are in full screen. Error: {e}")
 
     stdscr.addstr(height -4 , start_x+5,"\n{}Press any key to exit.".format(' '*(start_x+20)), curses.color_pair(2) | curses.A_BOLD)
-    
+
     stdscr.refresh()
     if stdscr.getch():
         return
