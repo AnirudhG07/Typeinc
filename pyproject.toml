@@ -1,6 +1,6 @@
 [project]
 name = "Typeinc"
-version = "1.0.2"
+version = "1.0.3"
 description = "Typeinc, an ncurses based tool, is your goto terminal tool to play around with your typing speed with various difficulty levels."
 readme = "README.md"
 authors = [
