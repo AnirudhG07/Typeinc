@@ -9,7 +9,7 @@ from .configurations.text_gen import text_gen
 from .configurations.ui import setup_window
 from .scores.highscore import display_highscore, store_result
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 
 def getsetgo(stdscr):
